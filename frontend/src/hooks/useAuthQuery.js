@@ -82,7 +82,7 @@ export const useLoginClient = () => {
         mutationFn: authService.loginClient,
         onSuccess: (data) => {
             // Update the auth cache
-            const profileComplete = !!(data.user.state && data.user.profilePicture);
+            const profileComplete = !!data.user.state;
             queryClient.setQueryData(['authUser'], {
                 authenticated: true,
                 user: data.user,
@@ -115,7 +115,7 @@ export const useLoginAdvocate = () => {
         mutationFn: authService.loginAdvocate,
         onSuccess: (data) => {
             // Update the auth cache
-            const profileComplete = !!(data.user.lawFirm && data.user.barCouncilNumber);
+            const profileComplete = !!(data.user.lawFirm && data.user.barCouncilNumber && data.user.specialization);
             queryClient.setQueryData(['authUser'], {
                 authenticated: true,
                 user: data.user,

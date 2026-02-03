@@ -1,5 +1,5 @@
 import express from "express";
-import { protectRoute } from "../middlewares/auth.middleware.js";
+import { protectRoute, optionalAuth } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -13,13 +13,24 @@ router.get('/check', protectRoute, (req, res) => {
 });
 
 // Check if user profile is complete
-router.get('/profile-status', protectRoute, (req, res) => {
+router.get('/profile-status', optionalAuth, (req, res) => {
+    res.set('Cache-Control', 'no-store');
     const user = req.user;
+
+    if (!user) {
+        return res.status(200).json({
+            authenticated: false,
+            user: null,
+            role: null,
+            profileComplete: false
+        });
+    }
+
     let isComplete = false;
     
     if (user.role === 'client') {
         // Check if client has completed onboarding
-        isComplete = !!(user.state && user.profilePicture);
+        isComplete = !!user.state;
     } else if (user.role === 'advocate') {
         // Check if advocate has completed onboarding
         isComplete = !!(user.lawFirm && user.barCouncilNumber && user.specialization);

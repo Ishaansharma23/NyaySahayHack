@@ -20,81 +20,88 @@ import { useMyAdvocates } from '../../hooks/useConnectionQuery';
 const MyAdvocates = () => {
     const [searchTerm, setSearchTerm] = useState('');
     
-    const { data: advocates, isLoading } = useMyAdvocates();
+    const { data, isLoading } = useMyAdvocates();
+    
+    // Extract advocates array from the API response
+    const advocates = data?.advocates || [];
 
-    const filteredAdvocates = advocates?.filter(advocate =>
-        advocate.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        advocate.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        advocate.lawFirm.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+    const filteredAdvocates = advocates.filter(item =>
+        item?.advocate?.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.advocate?.specialization?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.advocate?.lawFirm?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-    const AdvocateCard = ({ advocate }) => (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between">
-                <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                        {advocate.profilePicture ? (
-                            <img 
-                                src={advocate.profilePicture} 
-                                alt={advocate.fullName}
-                                className="w-12 h-12 rounded-full object-cover"
-                            />
-                        ) : (
-                            <User className="h-6 w-6 text-indigo-600" />
-                        )}
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900">{advocate.fullName}</h3>
-                        <p className="text-sm text-gray-500">{advocate.specialization}</p>
-                        
-                        <div className="mt-2 space-y-1">
-                            <div className="flex items-center text-sm text-gray-500">
-                                <Building2 className="h-3 w-3 mr-1" />
-                                {advocate.lawFirm}
+    const AdvocateCard = ({ item }) => {
+        const advocate = item.advocate;
+        
+        return (
+            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between">
+                    <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                            {advocate?.profilePicture ? (
+                                <img 
+                                    src={advocate.profilePicture} 
+                                    alt={advocate.fullName}
+                                    className="w-12 h-12 rounded-full object-cover"
+                                />
+                            ) : (
+                                <User className="h-6 w-6 text-indigo-600" />
+                            )}
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-900">{advocate?.fullName}</h3>
+                            <p className="text-sm text-gray-500">{advocate?.specialization}</p>
+                            
+                            <div className="mt-2 space-y-1">
+                                <div className="flex items-center text-sm text-gray-500">
+                                    <Building2 className="h-3 w-3 mr-1" />
+                                    {advocate?.lawFirm}
+                                </div>
+                                <div className="flex items-center text-sm text-gray-500">
+                                    <Award className="h-3 w-3 mr-1" />
+                                    {advocate?.yearsOfPractice} years experience
+                                </div>
+                                <div className="flex items-center text-sm text-gray-500">
+                                    <MapPin className="h-3 w-3 mr-1" />
+                                    {advocate?.location}
+                                </div>
                             </div>
-                            <div className="flex items-center text-sm text-gray-500">
-                                <Award className="h-3 w-3 mr-1" />
-                                {advocate.yearsOfPractice} years experience
-                            </div>
-                            <div className="flex items-center text-sm text-gray-500">
-                                <MapPin className="h-3 w-3 mr-1" />
-                                {advocate.location}
+                            
+                            <div className="mt-2">
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <Badge className="h-3 w-3 mr-1" />
+                                    Connected
+                                </span>
                             </div>
                         </div>
-                        
-                        <div className="mt-2">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                <Badge className="h-3 w-3 mr-1" />
-                                Connected
-                            </span>
-                        </div>
                     </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <Link 
-                        to={`/chat/${advocate._id}`}
-                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                        title="Start Chat"
-                    >
-                        <MessageCircle className="h-4 w-4" />
-                    </Link>
-                    <button 
-                        className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                        title="Call Advocate"
-                    >
-                        <Phone className="h-4 w-4" />
-                    </button>
-                    <button 
-                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        title="Send Email"
-                    >
-                        <Mail className="h-4 w-4" />
-                    </button>
-                    <ChevronRight className="h-4 w-4 text-gray-400" />
+                    <div className="flex items-center space-x-2">
+                        <Link 
+                            to={`/chat/${advocate?._id}`}
+                            className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                            title="Start Chat"
+                        >
+                            <MessageCircle className="h-4 w-4" />
+                        </Link>
+                        <button 
+                            className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            title="Call Advocate"
+                        >
+                            <Phone className="h-4 w-4" />
+                        </button>
+                        <button 
+                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            title="Send Email"
+                        >
+                            <Mail className="h-4 w-4" />
+                        </button>
+                        <ChevronRight className="h-4 w-4 text-gray-400" />
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -129,8 +136,8 @@ const MyAdvocates = () => {
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
                     </div>
                 ) : filteredAdvocates.length > 0 ? (
-                    filteredAdvocates.map((advocate) => (
-                        <AdvocateCard key={advocate._id} advocate={advocate} />
+                    filteredAdvocates.map((item) => (
+                        <AdvocateCard key={item.requestId || item.advocate?._id} item={item} />
                     ))
                 ) : (
                     <div className="text-center py-12">

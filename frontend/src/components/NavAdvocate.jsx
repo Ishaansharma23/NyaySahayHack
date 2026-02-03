@@ -79,8 +79,16 @@ const NavAdvocate = () => {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link to="/advocate/dashboard" className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                            <Scale className="h-5 w-5 text-white" />
+                        <div className="w-[3.25rem] h-9 rounded-lg overflow-hidden bg-white border border-gray-200 shadow-sm">
+                            <video
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                className="w-full h-full object-cover"
+                            >
+                                <source src="/NyayPreloadAnimation.mp4" type="video/mp4" />
+                            </video>
                         </div>
                         <span className="text-xl font-bold text-gray-900">
                             <span className="text-indigo-600">न्याय</span>Sahay

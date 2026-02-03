@@ -63,12 +63,13 @@ export async function registerAdvocate(req, res) {
         const streamToken = generateStreamToken(savedAdvocate._id);
 
         // Set cookie
-        res.cookie("token", token, {
+        const cookieOptions = {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: false,
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        });
+        };
+        res.cookie("token", token, cookieOptions);
 
         // Return advocate data (without password)
         const { password: _, ...advocateData } = savedAdvocate.toObject();
@@ -134,12 +135,13 @@ export async function loginAdvocate(req, res) {
         await upsertStreamUser(streamUserData);
 
         // Set cookie
-        res.cookie("token", token, {
+        const cookieOptions = {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: false,
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        });
+        };
+        res.cookie("token", token, cookieOptions);
 
         // Return advocate data (without password)
         const { password: _, ...advocateData } = advocate.toObject();
@@ -158,7 +160,11 @@ export async function loginAdvocate(req, res) {
 
 export async function logoutAdvocate(req, res) {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax"
+        });
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
         console.log("Error in logout advocate", error);

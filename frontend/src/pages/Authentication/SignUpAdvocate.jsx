@@ -3,9 +3,11 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../services/authService.js';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SignUpAdvocate = () => {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     
@@ -20,12 +22,16 @@ const SignUpAdvocate = () => {
             
             const response = await authService.registerAdvocate(registrationData);
             console.log('Registration successful:', response);
-            
-            // Store user data in localStorage
-            localStorage.setItem('user', JSON.stringify(response.user));
-            localStorage.setItem('streamToken', response.streamToken);
-            
-            navigate('/onboarding/advocate');
+
+            // Prime auth cache to allow onboarding route immediately
+            queryClient.setQueryData(['authUser'], {
+                authenticated: true,
+                user: response.user,
+                role: response.user.role,
+                profileComplete: false
+            });
+
+            navigate('/onboarding/advocate', { replace: true });
         } catch (error) {
             console.error('Registration error:', error);
             

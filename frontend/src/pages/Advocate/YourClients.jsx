@@ -25,20 +25,23 @@ const YourClients = () => {
     const [activeTab, setActiveTab] = useState('clients');
     const [searchTerm, setSearchTerm] = useState('');
     
-    const { data: clients, isLoading: clientsLoading } = useMyClients();
-    const { data: requests, isLoading: requestsLoading } = useMyConsultationRequests();
+    const { data: clientsData, isLoading: clientsLoading } = useMyClients();
+    const { data: requestsData, isLoading: requestsLoading } = useMyConsultationRequests();
     const acceptRequestMutation = useAcceptConsultationRequest();
     const rejectRequestMutation = useRejectConsultationRequest();
 
-    const filteredClients = clients?.filter(client =>
-        client.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.email.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+    const clients = clientsData?.clients || [];
+    const requests = requestsData?.requests || [];
 
-    const filteredRequests = requests?.filter(request =>
-        request.client.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        request.client.email.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+    const filteredClients = clients.filter(item =>
+        item?.client?.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.client?.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredRequests = requests.filter(request =>
+        request?.client?.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        request?.client?.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-IN', {
@@ -67,12 +70,14 @@ const YourClients = () => {
         }
     };
 
-    const ClientCard = ({ client, isRequest = false, requestId = null }) => (
+    const ClientCard = ({ client, isRequest = false, requestId = null }) => {
+        const phone = client?.phone || client?.phoneNumber;
+        return (
         <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-4">
                     <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                        {client.profilePicture ? (
+                        {client?.profilePicture ? (
                             <img 
                                 src={client.profilePicture} 
                                 alt={client.fullName}
@@ -83,10 +88,10 @@ const YourClients = () => {
                         )}
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900">{client.fullName}</h3>
-                        <p className="text-sm text-gray-500">{client.email}</p>
-                        {client.phoneNumber && (
-                            <p className="text-sm text-gray-500">{client.phoneNumber}</p>
+                        <h3 className="text-lg font-semibold text-gray-900">{client?.fullName}</h3>
+                        <p className="text-sm text-gray-500">{client?.email}</p>
+                        {phone && (
+                            <p className="text-sm text-gray-500">{phone}</p>
                         )}
                         {isRequest ? (
                             <div className="mt-2">
@@ -109,24 +114,26 @@ const YourClients = () => {
                     {!isRequest && (
                         <>
                             <Link 
-                                to={`/chat/${client._id}`}
+                                to={`/chat/${client?._id}`}
                                 className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                                 title="Start Chat"
                             >
                                 <MessageCircle className="h-4 w-4" />
                             </Link>
-                            <button 
+                            <Link 
+                                to={`/call/${client?._id}`}
                                 className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
                                 title="Call Client"
                             >
                                 <Phone className="h-4 w-4" />
-                            </button>
-                            <button 
+                            </Link>
+                            <a 
+                                href={client?.email ? `mailto:${client.email}` : undefined}
                                 className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                 title="Send Email"
                             >
                                 <Mail className="h-4 w-4" />
-                            </button>
+                            </a>
                         </>
                     )}
                     <ChevronRight className="h-4 w-4 text-gray-400" />
@@ -163,6 +170,7 @@ const YourClients = () => {
             )}
         </div>
     );
+    };
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -243,8 +251,8 @@ const YourClients = () => {
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
                             </div>
                         ) : filteredClients.length > 0 ? (
-                            filteredClients.map((client) => (
-                                <ClientCard key={client._id} client={client} />
+                            filteredClients.map((item) => (
+                                <ClientCard key={item.requestId || item.client?._id} client={item.client} />
                             ))
                         ) : (
                             <div className="text-center py-12">

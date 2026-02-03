@@ -1,15 +1,27 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 
-// Initialize a Pinecone client with your API key
-const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
+let nyaySahayIndex = null;
 
-// Create a dense index with integrated embedding
-const nyaySahayIndex = pc.Index('nyaysahay');
+const initPinecone = () => {
+    if (nyaySahayIndex) return nyaySahayIndex;
+
+    const apiKey = process.env.PINECONE_API_KEY;
+    if (!apiKey) {
+        return null;
+    }
+
+    const pc = new Pinecone({ apiKey });
+    nyaySahayIndex = pc.Index('nyaysahay');
+    return nyaySahayIndex;
+};
 
 // This function will create memory
 export async function createMemory({ vectors, metadata, messageId }) {
     try {
-        await nyaySahayIndex.upsert([
+        const index = initPinecone();
+        if (!index) return;
+
+        await index.upsert([
             {
                 id: messageId.toString(),
                 values: vectors,
@@ -24,7 +36,10 @@ export async function createMemory({ vectors, metadata, messageId }) {
 
 export async function queryMemory({ queryVector, limit = 5, metadata }) {
     try {
-        const data = await nyaySahayIndex.query({
+        const index = initPinecone();
+        if (!index) return [];
+
+        const data = await index.query({
             vector: queryVector,
             topK: limit,
             filter: metadata ? metadata : undefined,

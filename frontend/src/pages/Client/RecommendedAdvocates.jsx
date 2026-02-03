@@ -18,6 +18,7 @@ const RecommendedAdvocates = () => {
     const sendRequestMutation = useSendConsultationRequest();
     const [selectedAdvocate, setSelectedAdvocate] = useState(null);
     const [showRequestModal, setShowRequestModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -77,6 +78,16 @@ const RecommendedAdvocates = () => {
     }
 
     const advocates = advocatesData?.advocates || [];
+    const filteredAdvocates = advocates.filter((advocate) => {
+        const q = searchTerm.trim().toLowerCase();
+        if (!q) return true;
+        return (
+            advocate?.fullName?.toLowerCase().includes(q) ||
+            advocate?.specialization?.toLowerCase().includes(q) ||
+            advocate?.lawFirm?.toLowerCase().includes(q) ||
+            advocate?.location?.toLowerCase().includes(q)
+        );
+    });
 
     return (
         <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -89,16 +100,34 @@ const RecommendedAdvocates = () => {
                     </p>
                 </div>
 
+                {/* Search */}
+                <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                    <div className="w-full sm:max-w-md">
+                        <input
+                            type="text"
+                            placeholder="Search by name, specialization, firm, or location"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                    </div>
+                    <div className="text-sm text-gray-600">
+                        {filteredAdvocates.length} result{filteredAdvocates.length === 1 ? '' : 's'}
+                    </div>
+                </div>
+
                 {/* Advocates Grid */}
-                {advocates.length === 0 ? (
+                {filteredAdvocates.length === 0 ? (
                     <div className="text-center py-12">
                         <Briefcase className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                         <h3 className="text-lg font-medium text-gray-900 mb-2">No Advocates Available</h3>
-                        <p className="text-gray-600">Check back later for available advocates.</p>
+                        <p className="text-gray-600">
+                            {searchTerm ? 'No advocates match your search.' : 'Check back later for available advocates.'}
+                        </p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {advocates.map((advocate) => (
+                        {filteredAdvocates.map((advocate) => (
                             <div key={advocate._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                                 {/* Profile Header */}
                                 <div className="p-6">

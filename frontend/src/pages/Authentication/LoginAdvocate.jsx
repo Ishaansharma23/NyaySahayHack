@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { authService } from '../../services/authService.js';
+import { useQueryClient } from '@tanstack/react-query';
 
 const LoginAdvocate = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     
     const {
         register,
@@ -26,13 +28,17 @@ const LoginAdvocate = () => {
         try {
             const response = await authService.loginAdvocate(data);
             console.log('Login successful:', response);
-            
-            // Store user data
-            localStorage.setItem('user', JSON.stringify(response.user));
-            localStorage.setItem('streamToken', response.streamToken);
+
+            const profileComplete = !!(response.user.lawFirm && response.user.barCouncilNumber && response.user.specialization);
+            queryClient.setQueryData(['authUser'], {
+                authenticated: true,
+                user: response.user,
+                role: response.user.role,
+                profileComplete
+            });
             
             // Navigate to dashboard or onboarding based on user completion status
-            if (response.user.lawFirm && response.user.barCouncilNumber) {
+            if (profileComplete) {
                 navigate('/advocate/dashboard');
             } else {
                 navigate('/onboarding/advocate');

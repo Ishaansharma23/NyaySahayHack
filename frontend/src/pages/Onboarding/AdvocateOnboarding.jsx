@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Briefcase, MapPin, Award, Building2, User } from 'lucide-react';
-import { authService } from '../../services/authService.js';
+import { useAuthStatus, useAdvocateOnboarding } from '../../hooks/useAuthQuery.js';
 
 const AdvocateOnboarding = () => {
     const navigate = useNavigate();
@@ -10,6 +10,8 @@ const AdvocateOnboarding = () => {
     const [profilePic, setProfilePic] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({});
+    const { data: authData, isLoading: authLoading } = useAuthStatus();
+    const onboardingMutation = useAdvocateOnboarding();
     
     const specializations = [
         'Civil Law', 'Criminal Law', 'Corporate Law', 'Family Law', 
@@ -17,17 +19,15 @@ const AdvocateOnboarding = () => {
         'Cyber Law', 'Environmental Law', 'International Law', 'Other'
     ];
 
-    // Get user data from localStorage
+    // Get user data from auth status (cookie-based)
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            const user = JSON.parse(storedUser);
-            setUserData(user);
-        } else {
-            // If no user data, redirect to login
+        if (authLoading) return;
+        if (!authData?.authenticated) {
             navigate('/login/advocate');
+            return;
         }
-    }, [navigate]);
+        setUserData(authData.user || {});
+    }, [authData, authLoading, navigate]);
 
     const { register, handleSubmit, formState: { errors }, setError } = useForm();
 
@@ -66,14 +66,8 @@ const AdvocateOnboarding = () => {
                 formData.append('barCertificate', selectedFile);
             }
 
-            const response = await authService.onboardingAdvocate(formData);
+            const response = await onboardingMutation.mutateAsync(formData);
             console.log('Onboarding successful:', response);
-            
-            // Update user data in localStorage
-            localStorage.setItem('user', JSON.stringify(response.user));
-            
-            // Navigate to dashboard
-            navigate('/advocate/dashboard');
             
         } catch (error) {
             console.error('Onboarding error:', error);

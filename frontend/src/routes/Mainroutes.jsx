@@ -167,6 +167,14 @@ const MainRoutes = () => {
                     </ProtectedRoute>
                 }
             />
+            <Route
+                path="/client/ai-chat"
+                element={
+                    <ProtectedRoute requiredRole="client" requireCompleteProfile={true}>
+                        <ClientDashboard />
+                    </ProtectedRoute>
+                }
+            />
             
             {/* Advocate Dashboard Routes */}
             <Route

@@ -5,6 +5,7 @@ import {
     Bot, 
     AlertTriangle, 
     Users, 
+    MessageCircle,
     Bell, 
     ChevronDown, 
     User,
@@ -27,8 +28,14 @@ const NavClient = () => {
 
     const navItems = [
         {
-            name: 'JusticeAI',
+            name: 'Dashboard',
             path: '/client/dashboard',
+            icon: Scale,
+            description: 'Your Dashboard'
+        },
+        {
+            name: 'JusticeAI',
+            path: '/client/ai-chat',
             icon: Bot,
             description: 'AI Legal Assistant'
         },
@@ -53,9 +60,6 @@ const NavClient = () => {
     ];
 
     const isActive = (path) => {
-        if (path === '/client/dashboard') {
-            return location.pathname === '/client/dashboard' || location.pathname === '/client/justice-ai';
-        }
         return location.pathname === path;
     };
 
@@ -69,32 +73,22 @@ const NavClient = () => {
 
     return (
         <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-            {/* Top Bar */}
-            <div className="bg-indigo-600 text-white text-xs py-1">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1">
-                            <Shield className="h-3 w-3" />
-                            <span>Secure Legal Platform</span>
-                        </div>
-                        <div className="hidden md:flex items-center space-x-1">
-                            <span>24/7 Legal Support Available</span>
-                        </div>
-                    </div>
-                    <div className="flex items-center space-x-4 text-xs">
-                        <span className="hidden md:inline">📞 +91-1800-NYAYA-HELP</span>
-                        <span className="hidden md:inline">✉️ support@nyayasahay.gov.in</span>
-                    </div>
-                </div>
-            </div>
 
             {/* Main Navigation */}
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link to="/client/dashboard" className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                            <Scale className="h-5 w-5 text-white" />
+                        <div className="w-[3.25rem] h-9 rounded-lg overflow-hidden bg-white border border-gray-200 shadow-sm">
+                            <video
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                className="w-full h-full object-cover"
+                            >
+                                <source src="/NyayPreloadAnimation.mp4" type="video/mp4" />
+                            </video>
                         </div>
                         <span className="text-xl font-bold text-gray-900">
                             <span className="text-indigo-600">न्याय</span>Sahay

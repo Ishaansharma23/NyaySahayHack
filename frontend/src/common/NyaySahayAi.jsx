@@ -357,7 +357,7 @@ const NyaySahayAi = () => {
     };
 
     return (
-        <div className="flex h-[calc(100vh-120px)] bg-gradient-to-br from-slate-50 to-indigo-50 overflow-hidden">
+        <div className="flex h-full w-full bg-white overflow-hidden">
             {/* Mobile Overlay */}
             {sidebarOpen && window.innerWidth <= 768 && (
                 <div
@@ -454,7 +454,7 @@ const NyaySahayAi = () => {
                                 <Scale className="h-5 w-5 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-lg font-bold text-gray-900">JusticeAI</h1>
+                                <h1 className="text-lg font-bold text-gray-900">Nyay-Sahay AI</h1>
                                 <p className="text-sm text-gray-500">Your Legal Assistant</p>
                             </div>
                         </div>
@@ -476,7 +476,7 @@ const NyaySahayAi = () => {
                                 <Gavel className="h-10 w-10 text-white" />
                             </div>
                             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                                Welcome to <span className="text-indigo-600">JusticeAI</span>
+                                Welcome to <span className="text-indigo-600">Nyay-Sahay AI</span>
                             </h2>
                             <p className="text-gray-600 text-lg max-w-2xl mb-8">
                                 Your intelligent legal assistant ready to help you understand your rights, 

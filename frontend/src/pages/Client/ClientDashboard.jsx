@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import NavClient from '../../components/NavClient';
 import NyaySahayAi from '../../common/NyaySahayAi';
+import ClientHome from './ClientHome';
 import ReportIncident from './ReportIncident';
 import RecommendedAdvocates from './RecommendedAdvocates';
 import MyAdvocates from './MyAdvocates';
@@ -17,16 +18,18 @@ const ClientDashboard = () => {
                 return <RecommendedAdvocates />;
             case '/client/my-advocates':
                 return <MyAdvocates />;
+            case '/client/ai-chat':
+                return <NyaySahayAi />;
             case '/client/dashboard':
             default:
-                return <NyaySahayAi />;
+                return <ClientHome />;
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="h-screen flex flex-col bg-gray-50">
             <NavClient />
-            <main>
+            <main className="flex-1 min-h-0">
                 {renderContent()}
             </main>
         </div>
