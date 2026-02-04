@@ -149,6 +149,26 @@ const ClientHome = () => {
           {/* RIGHT SIDE */}
           <div className="space-y-8">
 
+            {/* PRICING BUBBLE */}
+            <div className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-blue-50 rounded-3xl border border-indigo-100 p-6 shadow-sm">
+              <div className="absolute -top-10 -right-10 w-28 h-28 bg-indigo-200/40 rounded-full blur-2xl" />
+              <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-2xl" />
+              <div className="relative">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-semibold shadow-sm animate-pulse">
+                  One‑time Free Consultation
+                </div>
+                <h4 className="text-xl font-semibold text-gray-900 mt-3">Talk to an Advocate</h4>
+                <p className="text-sm text-gray-600 mt-2">
+                  Your first consultation is free. After that, each consultation is
+                  <span className="font-semibold text-indigo-700"> ₹199</span>.
+                </p>
+                <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
+                  <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-ping" />
+                  <span>1 free session per client account</span>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white rounded-3xl border border-gray-200 p-6 shadow-sm">
               <QuickActions userRole="client" />
             </div>

@@ -115,18 +115,26 @@ const ReportIncident = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 py-10 px-4">
             <div className="max-w-4xl mx-auto">
-                <div className="bg-white rounded-2xl shadow-xl p-8">
+                <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-gray-200 p-8">
                     {/* Header */}
-                    <div className="text-center mb-8">
-                        <div className="flex items-center justify-center mb-4">
-                            <AlertTriangle className="h-12 w-12 text-red-500" />
+                    <div className="mb-8">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold border border-red-200">
+                            <AlertTriangle className="h-4 w-4" />
+                            Report an Incident
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Report an Incident</h1>
-                        <p className="text-gray-600">
-                            Report corruption, misconduct, or any legal violations. Your report will be forwarded to appropriate authorities.
-                        </p>
+                        <div className="flex items-center gap-4 mt-4">
+                            <div className="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center">
+                                <AlertTriangle className="h-6 w-6 text-red-600" />
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-bold text-gray-900">Report an Incident</h1>
+                                <p className="text-gray-600 mt-1">
+                                    Report corruption, misconduct, or any legal violations. Your report will be forwarded to appropriate authorities.
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -254,9 +262,9 @@ const ReportIncident = () => {
                                 Evidence Files (Optional)
                             </label>
                             <div
-                                className={`relative border-2 border-dashed rounded-lg p-6 transition-colors ${dragActive
-                                        ? 'border-indigo-400 bg-indigo-50'
-                                        : 'border-gray-300 hover:border-gray-400'
+                                className={`relative border-2 border-dashed rounded-2xl p-6 transition-all ${dragActive
+                                        ? 'border-indigo-400 bg-indigo-50 shadow-sm'
+                                        : 'border-gray-300 hover:border-gray-400 hover:shadow-sm bg-white'
                                     }`}
                                 onDragEnter={handleDrag}
                                 onDragLeave={handleDrag}
@@ -290,7 +298,7 @@ const ReportIncident = () => {
                                 <div className="mt-4 space-y-2">
                                     <p className="text-sm font-medium text-gray-700">Selected Files:</p>
                                     {selectedFiles.map((file, index) => (
-                                        <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                        <div key={index} className="flex items-center justify-between bg-gray-50 border border-gray-200 p-3 rounded-xl">
                                             <div className="flex items-center space-x-3">
                                                 {getFileIcon(file)}
                                                 <span className="text-sm text-gray-700 truncate">
@@ -318,7 +326,7 @@ const ReportIncident = () => {
                         </div>
 
                         {/* Important Notice */}
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-5">
                             <div className="flex">
                                 <AlertTriangle className="h-5 w-5 text-yellow-400 mt-0.5" />
                                 <div className="ml-3">
@@ -342,14 +350,14 @@ const ReportIncident = () => {
                             <button
                                 type="button"
                                 onClick={() => navigate(-1)}
-                                className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
                                 disabled={reportIncidentMutation.isPending}
-                                className="px-6 py-3 border border-transparent text-sm font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-6 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                             >
                                 {reportIncidentMutation.isPending ? 'Submitting Report...' : 'Submit Report'}
                             </button>

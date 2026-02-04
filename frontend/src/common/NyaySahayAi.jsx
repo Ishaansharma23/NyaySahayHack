@@ -9,8 +9,7 @@ import {
     Menu, 
     X, 
     Copy,
-    MessageCircle,
-    Gavel
+    MessageCircle
 } from 'lucide-react';
 import { useChats, useCreateChat, useMessages } from '../hooks/useChatQuery.js';
 import { useSocket } from '../hooks/useSocket.js';
@@ -450,8 +449,8 @@ const NyaySahayAi = () => {
                         </button>
                         
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full flex items-center justify-center">
-                                <Scale className="h-5 w-5 text-white" />
+                            <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden">
+                                <img src="/Advocate.svg" alt="Law symbol" className="w-6 h-6" />
                             </div>
                             <div>
                                 <h1 className="text-lg font-bold text-gray-900">Nyay-Sahay AI</h1>
@@ -472,8 +471,8 @@ const NyaySahayAi = () => {
                     {messages.length === 0 && !currentChatId ? (
                         // Welcome Screen
                         <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                            <div className="w-20 h-20 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full flex items-center justify-center mb-6">
-                                <Gavel className="h-10 w-10 text-white" />
+                            <div className="w-20 h-20 rounded-full bg-white border border-gray-200 flex items-center justify-center mb-6 shadow-sm">
+                                <img src="/Advocate.svg" alt="Law symbol" className="w-10 h-10" />
                             </div>
                             <h2 className="text-3xl font-bold text-gray-900 mb-4">
                                 Welcome to <span className="text-indigo-600">Nyay-Sahay AI</span>

@@ -7,6 +7,8 @@ import LoginAdvocate from '../pages/Authentication/LoginAdvocate';
 import SignUpAdvocate from '../pages/Authentication/SignUpAdvocate';
 import AdvocateOnboarding from '../pages/Onboarding/AdvocateOnboarding';
 import ClientOnboarding from '../pages/Onboarding/ClientOnboarding';
+import ClientProfileSettings from '../pages/Client/ProfileSettings';
+import AdvocateProfileSettings from '../pages/Advocate/ProfileSettings';
 
 import ClientDashboard from '../pages/Client/ClientDashboard';
 import AdvocateDashboard from '../pages/Advocate/AdvocateDashboard';
@@ -175,6 +177,14 @@ const MainRoutes = () => {
                     </ProtectedRoute>
                 }
             />
+            <Route
+                path="/client/profile"
+                element={
+                    <ProtectedRoute requiredRole="client">
+                        <ClientProfileSettings />
+                    </ProtectedRoute>
+                }
+            />
             
             {/* Advocate Dashboard Routes */}
             <Route
@@ -198,6 +208,14 @@ const MainRoutes = () => {
                 element={
                     <ProtectedRoute requiredRole="advocate" requireCompleteProfile={true}>
                         <AdvocateDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/advocate/profile"
+                element={
+                    <ProtectedRoute requiredRole="advocate">
+                        <AdvocateProfileSettings />
                     </ProtectedRoute>
                 }
             />

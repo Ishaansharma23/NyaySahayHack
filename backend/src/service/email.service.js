@@ -26,7 +26,7 @@ export const sendIncidentReportEmail = async (incidentData) => {
         // If no transporter (no email config), just log the email
         if (!transporter) {
             console.log('📧 INCIDENT REPORT EMAIL (would be sent to authorities):');
-            console.log('To: eatyourpickle850@gmail.com');
+            console.log('To: sharmaishaan0009@gmail.com');
             console.log('Subject: 🚨 URGENT: Incident Report -', incidentData.incidentNumber, '-', incidentData.title);
             console.log('Incident Details:', {
                 number: incidentData.incidentNumber,
@@ -113,7 +113,7 @@ export const sendIncidentReportEmail = async (incidentData) => {
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: 'eatyourpickle850@gmail.com', // Your fake email for prototype
+            to: 'sharmaishaan0009@gmail.com', // Prototype recipient
             subject: `🚨 URGENT: Incident Report - ${incidentData.incidentNumber} - ${incidentData.title}`,
             html: emailHtml,
             // Add attachments if needed
