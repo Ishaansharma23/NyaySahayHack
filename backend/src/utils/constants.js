@@ -75,7 +75,7 @@ export const JWT_EXPIRY = '7d';
 export const RATE_LIMIT = {
     WINDOW_MS: 15 * 60 * 1000, // 15 minutes
     MAX_REQUESTS: 100, // per window
-    AUTH_MAX_REQUESTS: 10 // for auth endpoints
+    AUTH_MAX_REQUESTS: 100 // for auth endpoints
 };
 
 export const PAGINATION = {

@@ -5,7 +5,7 @@ import clientModel from "../models/Client.model.js";
 import advocateModel from "../models/Advocate.model.js";
 import { generateResponse, generateVector } from "../service/ai.service.js";
 import messageModel from "../models/message.model.js";
-import { createMemory, queryMemory } from "../service/vector.seervice.js";
+import { createMemory, queryMemory } from "../service/vector.service.js";
 
 function initSocketServer(httpServer) {
     const io = new Server(httpServer, {

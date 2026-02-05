@@ -1,24 +1,26 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { 
-    User, 
-    MapPin, 
-    Briefcase, 
-    Star, 
+import {
+    User,
+    MapPin,
+    Briefcase,
     MessageCircle,
     Building2,
     Award,
     Clock,
     Send
 } from 'lucide-react';
-import { useRecommendedAdvocates, useSendConsultationRequest } from '../../hooks/useConnectionQuery.js';
+import { useRecommendedAdvocates, useSendConsultationRequest, useConsultationQuota } from '../../hooks/useConnectionQuery.js';
+import paymentService from '../../services/paymentService.js';
 
 const RecommendedAdvocates = () => {
     const { data: advocatesData, isLoading, error } = useRecommendedAdvocates();
     const sendRequestMutation = useSendConsultationRequest();
+    const { data: quotaData } = useConsultationQuota();
     const [selectedAdvocate, setSelectedAdvocate] = useState(null);
     const [showRequestModal, setShowRequestModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isPaying, setIsPaying] = useState(false);
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -39,23 +41,94 @@ const RecommendedAdvocates = () => {
         { value: 'urgent', label: 'Urgent', color: 'text-red-600' }
     ];
 
-    const handleSendRequest = (advocate) => {
-        setSelectedAdvocate(advocate);
-        setShowRequestModal(true);
+    const CONSULTATION_PRICE = 199;
+    const freeRemaining = quotaData?.freeRemaining ?? 5;
+    const paymentRequired = quotaData?.paymentRequired ?? false;
+
+    const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+            if (window.Razorpay) return resolve(true);
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
     };
 
     const onSubmitRequest = async (data) => {
         try {
-            await sendRequestMutation.mutateAsync({
+            if (!selectedAdvocate) return;
+
+            if (!paymentRequired) {
+                await sendRequestMutation.mutateAsync({
+                    advocateId: selectedAdvocate._id,
+                    requestData: data
+                });
+                setShowRequestModal(false);
+                setSelectedAdvocate(null);
+                reset();
+                return;
+            }
+
+            setIsPaying(true);
+            const scriptLoaded = await loadRazorpayScript();
+            if (!scriptLoaded) {
+                throw new Error('Failed to load Razorpay. Please try again.');
+            }
+
+            const orderResponse = await paymentService.createOrder({
+                amount: CONSULTATION_PRICE,
                 advocateId: selectedAdvocate._id,
-                requestData: data
+                paymentType: 'consultation',
+                description: 'Consultation fee'
             });
-            setShowRequestModal(false);
-            setSelectedAdvocate(null);
-            reset();
+
+            const { order } = orderResponse.data || orderResponse;
+            const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+            if (!razorpayKey) {
+                throw new Error('Razorpay key is not configured');
+            }
+
+            const rzp = new window.Razorpay({
+                key: razorpayKey,
+                amount: order.amount,
+                currency: order.currency,
+                name: 'NyaySahay',
+                description: 'Consultation Payment',
+                order_id: order.id,
+                handler: async (response) => {
+                    const verify = await paymentService.verifyPayment({
+                        orderId: response.razorpay_order_id,
+                        paymentId: response.razorpay_payment_id,
+                        signature: response.razorpay_signature
+                    });
+
+                    const paymentId = verify.data?.paymentId || verify.paymentId;
+
+                    await sendRequestMutation.mutateAsync({
+                        advocateId: selectedAdvocate._id,
+                        requestData: { ...data, paymentId }
+                    });
+
+                    setShowRequestModal(false);
+                    setSelectedAdvocate(null);
+                    reset();
+                },
+                theme: { color: '#4f46e5' }
+            });
+
+            rzp.open();
         } catch (error) {
             console.error('Error sending request:', error);
+        } finally {
+            setIsPaying(false);
         }
+    };
+
+    const handleSendRequest = (advocate) => {
+        setSelectedAdvocate(advocate);
+        setShowRequestModal(true);
     };
 
     if (isLoading) {
@@ -199,6 +272,12 @@ const RecommendedAdvocates = () => {
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">
                                 Send Consultation Request
                             </h3>
+                            <div className="mb-3 text-sm text-gray-600">
+                                Free consultations remaining: <span className="font-semibold text-indigo-600">{freeRemaining}</span>
+                                {paymentRequired && (
+                                    <span className="ml-2 text-rose-600">Payment required: ₹{CONSULTATION_PRICE}</span>
+                                )}
+                            </div>
                             <p className="text-sm text-gray-600 mb-4">
                                 To: <strong>{selectedAdvocate.fullName}</strong>
                             </p>
@@ -283,12 +362,12 @@ const RecommendedAdvocates = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        disabled={sendRequestMutation.isPending}
+                                        disabled={isPaying || sendRequestMutation.isPending}
                                         className="flex-1 flex items-center justify-center space-x-2 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
                                     >
                                         <Send className="h-4 w-4" />
                                         <span>
-                                            {sendRequestMutation.isPending ? 'Sending...' : 'Send Request'}
+                                            {isPaying ? 'Processing Payment...' : sendRequestMutation.isPending ? 'Sending...' : paymentRequired ? `Pay ₹${CONSULTATION_PRICE} & Send` : 'Send Request'}
                                         </span>
                                     </button>
                                 </div>

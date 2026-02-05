@@ -1,8 +1,8 @@
 import { StreamChat } from "stream-chat";
 import "dotenv/config"
 
-const api_key = process.env.STEAM_API_KEY;
-const api_secret = process.env.STEAM_API_SECRET;
+const api_key = process.env.STREAM_API_KEY || process.env.STEAM_API_KEY;
+const api_secret = process.env.STREAM_API_SECRET || process.env.STEAM_API_SECRET;
 // instantiate your stream client using the API key and secret
 // the secret is only used server side and gives you full access to the API
 const serverClient = StreamChat.getInstance(

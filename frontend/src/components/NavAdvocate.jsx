@@ -55,25 +55,6 @@ const NavAdvocate = () => {
 
     return (
         <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-            {/* Top Bar */}
-            <div className="bg-indigo-600 text-white text-xs py-1">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1">
-                            <Shield className="h-3 w-3" />
-                            <span>Secure Legal Platform</span>
-                        </div>
-                        <div className="hidden md:flex items-center space-x-1">
-                            <span>Professional Legal Services</span>
-                        </div>
-                    </div>
-                    <div className="flex items-center space-x-4 text-xs">
-                        <span className="hidden md:inline">📞 +91-1800-NYAYA-HELP</span>
-                        <span className="hidden md:inline">✉️ support@nyayasahay.gov.in</span>
-                    </div>
-                </div>
-            </div>
-
             {/* Main Navigation */}
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex justify-between items-center h-16">

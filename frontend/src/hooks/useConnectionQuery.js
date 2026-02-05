@@ -47,6 +47,15 @@ export const useOutgoingRequests = () => {
     });
 };
 
+// Hook to get consultation quota (for clients)
+export const useConsultationQuota = () => {
+    return useQuery({
+        queryKey: ['consultationQuota'],
+        queryFn: connectionService.getConsultationQuota,
+        staleTime: 2 * 60 * 1000
+    });
+};
+
 // Hook to send consultation request (for clients)
 export const useSendConsultationRequest = () => {
     const queryClient = useQueryClient();
@@ -58,6 +67,7 @@ export const useSendConsultationRequest = () => {
             // Invalidate relevant queries
             queryClient.invalidateQueries({ queryKey: ['recommendedAdvocates'] });
             queryClient.invalidateQueries({ queryKey: ['outgoingRequests'] });
+            queryClient.invalidateQueries({ queryKey: ['consultationQuota'] });
             
             toast.success('Consultation request sent successfully!');
             return data.request;

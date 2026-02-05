@@ -8,7 +8,8 @@ import {
     getMyClients,
     getMyAdvocates,
     getMyConsultationRequests,
-    getOutgoingConsultationRequests
+    getOutgoingConsultationRequests,
+    getConsultationQuota
 } from "../controllers/AdvocateClient.controller.js";
 
 const router = express.Router();
@@ -39,5 +40,8 @@ router.get("/consultation-requests", getMyConsultationRequests);
 
 // Client → see outgoing consultation requests
 router.get("/outgoing-consultation-requests", getOutgoingConsultationRequests);
+
+// Client → consultation quota
+router.get("/consultation-quota", getConsultationQuota);
 
 export default router;

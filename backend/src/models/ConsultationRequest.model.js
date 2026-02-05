@@ -36,7 +36,11 @@ const consultationRequestSchema = new mongoose.Schema({
         trim: true
     },
     acceptedAt: Date,
-    rejectedAt: Date
+    rejectedAt: Date,
+    payment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Payment'
+    }
 }, { timestamps: true });
 
 const ConsultationRequest = mongoose.model("ConsultationRequest", consultationRequestSchema);

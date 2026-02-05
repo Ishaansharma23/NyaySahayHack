@@ -94,18 +94,54 @@ const ChatPage = () => {
         }
     };
 
+    const handleEndChat = async () => {
+        try {
+            if (chatClient) {
+                await chatClient.disconnectUser();
+            }
+        } catch (error) {
+            console.error('Error ending chat:', error);
+        } finally {
+            const role = authUser?.role;
+            navigate(role === 'advocate' ? '/advocate/dashboard' : '/client/dashboard');
+        }
+    };
+
     if (loading || !chatClient || !channel) return <ChatLoader />;
 
     return (
-        <div className="h-[93vh] bg-white">
+        <div className="h-[93vh] bg-gray-50">
             <Chat client={chatClient} theme="str-chat__theme-light">
                 <Channel channel={channel}>
-                    <div className="w-full relative h-full">
-                        <CallButton handleVideoCall={handleVideoCall} />
-                        <Window>
+                    <div className="w-full h-full flex flex-col">
+                        <div className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200">
+                            <div className="flex items-center justify-between px-4 py-3">
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-semibold text-gray-800">Chat</span>
+                                    <span className="text-xs text-gray-500">Secure conversation</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={handleVideoCall}
+                                        className="text-xs px-3 py-1.5 rounded-full bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-colors"
+                                    >
+                                        Start Video Call
+                                    </button>
+                                    <button
+                                        onClick={handleEndChat}
+                                        className="text-xs px-3 py-1.5 rounded-full border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                                    >
+                                        End Chat
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <Window className="flex-1 min-h-0">
                             <ChannelHeader />
-                            <MessageList />
-                            <MessageInput focus />
+                            <MessageList className="bg-gray-50 px-3 sm:px-4" />
+                            <div className="bg-white border-t border-gray-200 px-2 sm:px-3 py-2">
+                                <MessageInput focus />
+                            </div>
                         </Window>
                     </div>
                     <Thread />

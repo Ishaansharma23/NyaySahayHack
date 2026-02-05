@@ -155,16 +155,16 @@ const ClientHome = () => {
               <div className="absolute -bottom-12 -left-10 w-32 h-32 bg-blue-200/30 rounded-full blur-2xl" />
               <div className="relative">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-600 text-white text-xs font-semibold shadow-sm animate-pulse">
-                  One‑time Free Consultation
+                  First 5 Consultations Free
                 </div>
                 <h4 className="text-xl font-semibold text-gray-900 mt-3">Talk to an Advocate</h4>
                 <p className="text-sm text-gray-600 mt-2">
-                  Your first consultation is free. After that, each consultation is
+                  Your first 5 consultations are free. After that, each consultation is
                   <span className="font-semibold text-indigo-700"> ₹199</span>.
                 </p>
                 <div className="mt-4 flex items-center gap-2 text-xs text-gray-500">
                   <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-ping" />
-                  <span>1 free session per client account</span>
+                  <span>5 free sessions per client account</span>
                 </div>
               </div>
             </div>

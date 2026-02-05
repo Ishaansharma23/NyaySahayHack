@@ -81,6 +81,16 @@ export const connectionService = {
         } catch (error) {
             throw error.response?.data || { message: 'Failed to get outgoing requests' };
         }
+    },
+
+    // Get consultation quota (for clients)
+    getConsultationQuota: async () => {
+        try {
+            const response = await api.get('/connections/consultation-quota');
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to get consultation quota' };
+        }
     }
 };
 

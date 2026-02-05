@@ -1,6 +1,9 @@
 import advocateModel from "../models/Advocate.model.js";
 import clientModel from "../models/Client.model.js";
 import ConsultationRequest from "../models/ConsultationRequest.model.js";
+import PaymentModel from "../models/Payment.model.js";
+
+const FREE_CONSULTATIONS = 5;
 
 // Get recommended advocates for clients
 export async function getRecommendedAdvocates(req, res) {
@@ -46,7 +49,7 @@ export async function sendConsultationRequest(req, res) {
     try {
         const clientId = req.user._id;
         const { advocateId } = req.params;
-        const { message, legalIssue, urgency } = req.body;
+        const { message, legalIssue, urgency, paymentId } = req.body;
 
         // Only clients can send consultation requests
         if (req.user.role !== 'client') {
@@ -87,13 +90,38 @@ export async function sendConsultationRequest(req, res) {
             return res.status(400).json({ message: "Consultation request already sent" });
         }
 
+        // Enforce free quota
+        const acceptedCount = await ConsultationRequest.countDocuments({
+            client: clientId,
+            status: 'accepted'
+        });
+
+        if (acceptedCount >= FREE_CONSULTATIONS) {
+            if (!paymentId) {
+                return res.status(402).json({ message: "Payment required for additional consultations" });
+            }
+
+            const payment = await PaymentModel.findOne({
+                _id: paymentId,
+                client: clientId,
+                advocate: advocateId,
+                status: 'completed',
+                paymentType: 'consultation'
+            });
+
+            if (!payment) {
+                return res.status(400).json({ message: "Valid payment required" });
+            }
+        }
+
         // Create consultation request
         const consultationRequest = await ConsultationRequest.create({
             client: clientId,
             advocate: advocateId,
             message: message.trim(),
             legalIssue,
-            urgency: urgency || 'medium'
+            urgency: urgency || 'medium',
+            payment: paymentId || undefined
         });
 
         // Populate the request for response
@@ -107,6 +135,32 @@ export async function sendConsultationRequest(req, res) {
 
     } catch (err) {
         console.log("Error in sending consultation request", err.message);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+// Client consultation quota
+export async function getConsultationQuota(req, res) {
+    try {
+        if (req.user.role !== 'client') {
+            return res.status(403).json({ message: "Only clients can view consultation quota" });
+        }
+
+        const acceptedCount = await ConsultationRequest.countDocuments({
+            client: req.user._id,
+            status: 'accepted'
+        });
+
+        const freeRemaining = Math.max(FREE_CONSULTATIONS - acceptedCount, 0);
+
+        res.status(200).json({
+            freeLimit: FREE_CONSULTATIONS,
+            used: acceptedCount,
+            freeRemaining,
+            paymentRequired: acceptedCount >= FREE_CONSULTATIONS
+        });
+    } catch (err) {
+        console.log("Error in getting consultation quota", err.message);
         res.status(500).json({ message: "Internal server error" });
     }
 }
