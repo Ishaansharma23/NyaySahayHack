@@ -42,7 +42,7 @@ export async function registerAdvocate(req, res) {
         const streamUserData = {
             id: savedAdvocate._id.toString(),
             name: fullName,
-            role: "advocate",
+            role: "user",
             email: email
         };
 
@@ -65,8 +65,8 @@ export async function registerAdvocate(req, res) {
         // Set cookie
         const cookieOptions = {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         };
         res.cookie("token", token, cookieOptions);
@@ -127,7 +127,7 @@ export async function loginAdvocate(req, res) {
         const streamUserData = {
             id: advocate._id.toString(),
             name: advocate.fullName,
-            role: "advocate",
+            role: "user",
             email: advocate.email,
             image: advocate.profilePicture || undefined
         };
@@ -137,8 +137,8 @@ export async function loginAdvocate(req, res) {
         // Set cookie
         const cookieOptions = {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         };
         res.cookie("token", token, cookieOptions);
@@ -162,8 +162,8 @@ export async function logoutAdvocate(req, res) {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax"
+            secure: true,
+            sameSite: "none"
         });
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
@@ -265,7 +265,7 @@ export async function onboardingAdvocate(req, res) {
         const streamUserData = {
             id: updatedAdvocate._id.toString(),
             name: updatedAdvocate.fullName,
-            role: "advocate",
+            role: "user",
             email: updatedAdvocate.email,
             image: updatedAdvocate.profilePicture || undefined
         };

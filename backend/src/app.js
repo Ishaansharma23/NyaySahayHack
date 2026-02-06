@@ -30,43 +30,12 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
 // CORS configuration
-const corsOptions = {
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        const normalizeOrigin = (value) => value?.trim().replace(/\/$/, '');
-        const originToCheck = normalizeOrigin(origin);
-        
-        const envOrigins = [
-            process.env.FRONTEND_URL,
-            ...(process.env.FRONTEND_URLS || '').split(',')
-        ]
-            .map((value) => normalizeOrigin(value))
-            .filter(Boolean);
-
-        const allowedOrigins = new Set([
-            'http://localhost:5173',
-            'http://localhost:5174',
-            'http://localhost:5175',
-            'https://nyay-sahay-hack.vercel.app',
-            ...envOrigins
-        ]);
-
-        const isAllowed = allowedOrigins.has(originToCheck);
-        const isAllowedVercel = originToCheck?.endsWith('.vercel.app') && originToCheck?.includes('nyay-sahay-hack');
-
-        if (isAllowed || isAllowedVercel) {
-            callback(null, true);
-        } else {
-            callback(null, false);
-        }
-    },
+app.use(cors({
+    origin: 'https://nyay-sahay-hack.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-};
-app.use(cors(corsOptions));
+}));
 
 // Request logging
 app.use(requestLogger);

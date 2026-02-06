@@ -42,7 +42,7 @@ export async function registerClient(req, res) {
         const streamUserData = {
             id: savedClient._id.toString(),
             name: fullName,
-            role: "client",
+            role: "user",
             email: email
         };
 
@@ -65,8 +65,8 @@ export async function registerClient(req, res) {
         // Set cookie
         const cookieOptions = {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         };
         res.cookie("token", token, cookieOptions);
@@ -127,7 +127,7 @@ export async function loginClient(req, res) {
         const streamUserData = {
             id: client._id.toString(),
             name: client.fullName,
-            role: "client",
+            role: "user",
             email: client.email
         };
 
@@ -136,8 +136,8 @@ export async function loginClient(req, res) {
         // Set cookie
         const cookieOptions = {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         };
         res.cookie("token", token, cookieOptions);
@@ -161,8 +161,8 @@ export async function logoutClient(req, res) {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: false,
-            sameSite: "lax"
+            secure: true,
+            sameSite: "none"
         });
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
@@ -240,7 +240,7 @@ export async function onboardingClient(req, res) {
         const streamUserData = {
             id: updatedClient._id.toString(),
             name: updatedClient.fullName,
-            role: "client",
+            role: "user",
             email: updatedClient.email,
             image: updatedClient.profilePicture || undefined
         };
