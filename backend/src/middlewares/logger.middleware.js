@@ -5,6 +5,9 @@ import logger from '../utils/logger.js';
  * Logs incoming requests and response times
  */
 const requestLogger = (req, res, next) => {
+    if (process.env.LOG_HTTP !== 'true') {
+        return next();
+    }
     const startTime = Date.now();
     
     // Log incoming request
