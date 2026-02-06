@@ -44,28 +44,28 @@ const DashboardStats = ({ userRole = 'client' }) => {
         {
             title: 'Total Cases',
             value: stats.total,
-            icon: <FileText className="h-6 w-6 text-indigo-600" />,
+            icon: <FileText className="h-6 w-6 text-indigo-300" />,
             change: 'Active legal matters',
             changeType: 'neutral'
         },
         {
             title: 'Pending Cases',
             value: stats.pending,
-            icon: <Clock className="h-6 w-6 text-amber-600" />,
+            icon: <Clock className="h-6 w-6 text-amber-300" />,
             change: 'Awaiting response',
             changeType: 'warning'
         },
         {
             title: 'In Progress',
             value: stats.in_progress || 0,
-            icon: <TrendingUp className="h-6 w-6 text-blue-600" />,
+            icon: <TrendingUp className="h-6 w-6 text-sky-300" />,
             change: 'Being handled',
             changeType: 'neutral'
         },
         {
             title: 'Resolved',
             value: stats.resolved,
-            icon: <CheckCircle className="h-6 w-6 text-emerald-600" />,
+            icon: <CheckCircle className="h-6 w-6 text-emerald-300" />,
             change: 'Successfully closed',
             changeType: 'positive'
         }
@@ -75,28 +75,28 @@ const DashboardStats = ({ userRole = 'client' }) => {
         {
             title: 'Active Cases',
             value: stats.in_progress || 0,
-            icon: <Briefcase className="h-6 w-6 text-indigo-600" />,
+            icon: <Briefcase className="h-6 w-6 text-indigo-300" />,
             change: 'Currently handling',
             changeType: 'neutral'
         },
         {
             title: 'Pending Requests',
             value: stats.pending,
-            icon: <AlertTriangle className="h-6 w-6 text-amber-600" />,
+            icon: <AlertTriangle className="h-6 w-6 text-amber-300" />,
             change: 'Need attention',
             changeType: 'warning'
         },
         {
             title: 'Completed',
             value: stats.resolved + (stats.closed || 0),
-            icon: <CheckCircle className="h-6 w-6 text-emerald-600" />,
+            icon: <CheckCircle className="h-6 w-6 text-emerald-300" />,
             change: 'This month',
             changeType: 'positive'
         },
         {
             title: 'Total Earnings',
             value: `₹${earningsData?.totalEarnings || 0}`,
-            icon: <DollarSign className="h-6 w-6 text-green-600" />,
+            icon: <DollarSign className="h-6 w-6 text-emerald-300" />,
             change: 'This month',
             changeType: 'positive'
         }
@@ -114,7 +114,7 @@ const DashboardStats = ({ userRole = 'client' }) => {
                     icon={stat.icon}
                     change={stat.change}
                     changeType={stat.changeType}
-                    variant="light"
+                    variant="default"
                     className="transition-transform hover:-translate-y-0.5"
                 />
             ))}

@@ -134,7 +134,7 @@ const RecommendedAdvocates = () => {
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400"></div>
             </div>
         );
     }
@@ -143,8 +143,8 @@ const RecommendedAdvocates = () => {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Error Loading Advocates</h2>
-                    <p className="text-gray-600">{error.message}</p>
+                    <h2 className="text-2xl font-bold text-white mb-2">Error Loading Advocates</h2>
+                    <p className="text-gray-400">{error.message}</p>
                 </div>
             </div>
         );
@@ -163,12 +163,12 @@ const RecommendedAdvocates = () => {
     });
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4">
+        <div className="min-h-screen py-8 px-4 text-white">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Recommended Advocates</h1>
-                    <p className="text-gray-600">
+                    <h1 className="text-3xl font-bold text-white mb-2">Recommended Advocates</h1>
+                    <p className="text-gray-400">
                         Connect with experienced legal professionals who can help with your case
                     </p>
                 </div>
@@ -181,10 +181,10 @@ const RecommendedAdvocates = () => {
                             placeholder="Search by name, specialization, firm, or location"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full px-4 py-2.5 border border-white/10 rounded-lg bg-white/5 text-white placeholder:text-gray-500 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"
                         />
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-400">
                         {filteredAdvocates.length} result{filteredAdvocates.length === 1 ? '' : 's'}
                     </div>
                 </div>
@@ -193,19 +193,19 @@ const RecommendedAdvocates = () => {
                 {filteredAdvocates.length === 0 ? (
                     <div className="text-center py-12">
                         <Briefcase className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No Advocates Available</h3>
-                        <p className="text-gray-600">
+                        <h3 className="text-lg font-medium text-white mb-2">No Advocates Available</h3>
+                        <p className="text-gray-400">
                             {searchTerm ? 'No advocates match your search.' : 'Check back later for available advocates.'}
                         </p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredAdvocates.map((advocate) => (
-                            <div key={advocate._id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                            <div key={advocate._id} className="bg-white/5 rounded-xl shadow-xl border border-white/10 overflow-hidden hover:shadow-2xl transition-shadow">
                                 {/* Profile Header */}
                                 <div className="p-6">
                                     <div className="flex items-center space-x-4 mb-4">
-                                        <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                                        <div className="w-16 h-16 bg-white/10 border border-white/10 rounded-full flex items-center justify-center overflow-hidden">
                                             {advocate.profilePicture ? (
                                                 <img 
                                                     src={advocate.profilePicture} 
@@ -217,23 +217,23 @@ const RecommendedAdvocates = () => {
                                             )}
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="text-lg font-semibold text-gray-900">
+                                            <h3 className="text-lg font-semibold text-white">
                                                 {advocate.fullName}
                                             </h3>
-                                            <p className="text-sm text-gray-600">{advocate.specialization}</p>
+                                            <p className="text-sm text-gray-300">{advocate.specialization}</p>
                                         </div>
                                     </div>
 
                                     {/* Law Firm */}
                                     <div className="flex items-center space-x-2 mb-3">
                                         <Building2 className="h-4 w-4 text-gray-400" />
-                                        <span className="text-sm text-gray-600">{advocate.lawFirm}</span>
+                                        <span className="text-sm text-gray-300">{advocate.lawFirm}</span>
                                     </div>
 
                                     {/* Experience */}
                                     <div className="flex items-center space-x-2 mb-3">
                                         <Award className="h-4 w-4 text-gray-400" />
-                                        <span className="text-sm text-gray-600">
+                                        <span className="text-sm text-gray-300">
                                             {advocate.yearsOfPractice} years of experience
                                         </span>
                                     </div>
@@ -241,12 +241,12 @@ const RecommendedAdvocates = () => {
                                     {/* Location */}
                                     <div className="flex items-center space-x-2 mb-4">
                                         <MapPin className="h-4 w-4 text-gray-400" />
-                                        <span className="text-sm text-gray-600">{advocate.location}</span>
+                                        <span className="text-sm text-gray-300">{advocate.location}</span>
                                     </div>
 
                                     {/* Bio */}
                                     {advocate.bio && (
-                                        <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+                                        <p className="text-sm text-gray-300 mb-4 line-clamp-3">
                                             {advocate.bio}
                                         </p>
                                     )}
@@ -267,31 +267,31 @@ const RecommendedAdvocates = () => {
 
                 {/* Request Modal */}
                 {showRequestModal && selectedAdvocate && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-xl max-w-md w-full p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+                        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl max-w-md w-full p-6 text-white">
+                            <h3 className="text-lg font-semibold text-white mb-4">
                                 Send Consultation Request
                             </h3>
-                            <div className="mb-3 text-sm text-gray-600">
-                                Free consultations remaining: <span className="font-semibold text-indigo-600">{freeRemaining}</span>
+                            <div className="mb-3 text-sm text-gray-300">
+                                Free consultations remaining: <span className="font-semibold text-indigo-200">{freeRemaining}</span>
                                 {paymentRequired && (
-                                    <span className="ml-2 text-rose-600">Payment required: ₹{CONSULTATION_PRICE}</span>
+                                    <span className="ml-2 text-rose-300">Payment required: ₹{CONSULTATION_PRICE}</span>
                                 )}
                             </div>
-                            <p className="text-sm text-gray-600 mb-4">
+                            <p className="text-sm text-gray-300 mb-4">
                                 To: <strong>{selectedAdvocate.fullName}</strong>
                             </p>
 
                             <form onSubmit={handleSubmit(onSubmitRequest)} className="space-y-4">
                                 {/* Legal Issue */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">
                                         Legal Issue <span className="text-red-500">*</span>
                                     </label>
                                     <select
                                         className={`block w-full px-3 py-2 border ${
-                                            errors.legalIssue ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                                            errors.legalIssue ? 'border-red-400' : 'border-white/10'
+                                        } rounded-lg bg-white/5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400`}
                                         {...register('legalIssue', { required: 'Please select a legal issue' })}
                                     >
                                         <option value="">Select legal issue</option>
@@ -308,11 +308,11 @@ const RecommendedAdvocates = () => {
 
                                 {/* Urgency */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">
                                         Urgency Level
                                     </label>
                                     <select
-                                        className="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        className="block w-full px-3 py-2 border border-white/10 rounded-lg bg-white/5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                         {...register('urgency')}
                                     >
                                         {urgencyLevels.map(level => (
@@ -325,15 +325,15 @@ const RecommendedAdvocates = () => {
 
                                 {/* Message */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">
                                         Message <span className="text-red-500">*</span>
                                     </label>
                                     <textarea
                                         rows={4}
                                         placeholder="Describe your legal issue and why you need consultation..."
                                         className={`block w-full px-3 py-2 border ${
-                                            errors.message ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+                                            errors.message ? 'border-red-400' : 'border-white/10'
+                                        } rounded-lg bg-white/5 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400`}
                                         {...register('message', {
                                             required: 'Message is required',
                                             minLength: {
@@ -356,7 +356,7 @@ const RecommendedAdvocates = () => {
                                             setSelectedAdvocate(null);
                                             reset();
                                         }}
-                                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                        className="flex-1 px-4 py-2 border border-white/10 text-gray-300 rounded-lg bg-white/5 hover:bg-white/10"
                                     >
                                         Cancel
                                     </button>

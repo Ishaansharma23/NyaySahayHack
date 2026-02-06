@@ -115,22 +115,22 @@ const ReportIncident = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 py-10 px-4">
+        <div className="min-h-screen py-10 px-4 text-white">
             <div className="max-w-4xl mx-auto">
-                <div className="bg-white/80 backdrop-blur rounded-3xl shadow-lg border border-gray-200 p-8">
+            <div className="bg-white/5 backdrop-blur-md rounded-3xl shadow-xl border border-white/10 p-8">
                     {/* Header */}
                     <div className="mb-8">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold border border-red-200">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-300 text-xs font-semibold border border-red-500/20">
                             <AlertTriangle className="h-4 w-4" />
                             Report an Incident
                         </div>
                         <div className="flex items-center gap-4 mt-4">
-                            <div className="w-12 h-12 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center">
-                                <AlertTriangle className="h-6 w-6 text-red-600" />
+                            <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                                <AlertTriangle className="h-6 w-6 text-red-300" />
                             </div>
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Report an Incident</h1>
-                                <p className="text-gray-600 mt-1">
+                                <h1 className="text-3xl font-bold text-white">Report an Incident</h1>
+                                <p className="text-gray-300 mt-1">
                                     Report corruption, misconduct, or any legal violations. Your report will be forwarded to appropriate authorities.
                                 </p>
                             </div>
@@ -140,7 +140,7 @@ const ReportIncident = () => {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Incident Title */}
                         <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-2">
                                 Incident Title <span className="text-red-500">*</span>
                             </label>
                             <div className="relative">
@@ -149,8 +149,8 @@ const ReportIncident = () => {
                                     id="title"
                                     type="text"
                                     placeholder="Brief title describing the incident"
-                                    className={`block w-full pl-10 pr-3 py-3 border ${errors.title ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                                    className={`block w-full pl-10 pr-3 py-3 border bg-white/5 text-white placeholder:text-gray-500 ${errors.title ? 'border-red-400' : 'border-white/10'
+                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent`}
                                     {...register('title', {
                                         required: 'Incident title is required',
                                         minLength: {
@@ -168,13 +168,13 @@ const ReportIncident = () => {
                         {/* Incident Type and Urgency */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label htmlFor="incidentType" className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor="incidentType" className="block text-sm font-medium text-gray-300 mb-2">
                                     Incident Type <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     id="incidentType"
-                                    className={`block w-full px-3 py-3 border ${errors.incidentType ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white`}
+                                    className={`block w-full px-3 py-3 border bg-white/5 text-white ${errors.incidentType ? 'border-red-400' : 'border-white/10'
+                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent`}
                                     {...register('incidentType', {
                                         required: 'Please select an incident type'
                                     })}
@@ -192,12 +192,12 @@ const ReportIncident = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="urgency" className="block text-sm font-medium text-gray-700 mb-2">
+                                <label htmlFor="urgency" className="block text-sm font-medium text-gray-300 mb-2">
                                     Urgency Level
                                 </label>
                                 <select
                                     id="urgency"
-                                    className="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white"
+                                    className="block w-full px-3 py-3 border border-white/10 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent bg-white/5 text-white"
                                     {...register('urgency')}
                                 >
                                     {urgencyLevels.map(level => (
@@ -211,7 +211,7 @@ const ReportIncident = () => {
 
                         {/* Location */}
                         <div>
-                            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="location" className="block text-sm font-medium text-gray-300 mb-2">
                                 Location <span className="text-red-500">*</span>
                             </label>
                             <div className="relative">
@@ -220,8 +220,8 @@ const ReportIncident = () => {
                                     id="location"
                                     type="text"
                                     placeholder="Where did this incident occur?"
-                                    className={`block w-full pl-10 pr-3 py-3 border ${errors.location ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                                    className={`block w-full pl-10 pr-3 py-3 border bg-white/5 text-white placeholder:text-gray-500 ${errors.location ? 'border-red-400' : 'border-white/10'
+                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent`}
                                     {...register('location', {
                                         required: 'Location is required'
                                     })}
@@ -234,15 +234,15 @@ const ReportIncident = () => {
 
                         {/* Incident Details */}
                         <div>
-                            <label htmlFor="incidentDetails" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="incidentDetails" className="block text-sm font-medium text-gray-300 mb-2">
                                 Detailed Description <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 id="incidentDetails"
                                 rows={6}
                                 placeholder="Provide a detailed description of what happened, when it occurred, who was involved, and any other relevant information..."
-                                className={`block w-full px-3 py-3 border ${errors.incidentDetails ? 'border-red-300' : 'border-gray-300'
-                                    } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                                className={`block w-full px-3 py-3 border bg-white/5 text-white placeholder:text-gray-500 ${errors.incidentDetails ? 'border-red-400' : 'border-white/10'
+                                    } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent`}
                                 {...register('incidentDetails', {
                                     required: 'Detailed description is required',
                                     minLength: {
@@ -258,13 +258,13 @@ const ReportIncident = () => {
 
                         {/* File Upload */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
                                 Evidence Files (Optional)
                             </label>
                             <div
                                 className={`relative border-2 border-dashed rounded-2xl p-6 transition-all ${dragActive
-                                        ? 'border-indigo-400 bg-indigo-50 shadow-sm'
-                                        : 'border-gray-300 hover:border-gray-400 hover:shadow-sm bg-white'
+                                        ? 'border-indigo-400/60 bg-white/5 shadow-sm'
+                                        : 'border-white/10 hover:border-white/20 hover:shadow-sm bg-white/5'
                                     }`}
                                 onDragEnter={handleDrag}
                                 onDragLeave={handleDrag}
@@ -275,7 +275,7 @@ const ReportIncident = () => {
                                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                                     <div className="mt-4">
                                         <label className="cursor-pointer">
-                                            <span className="mt-2 block text-sm font-medium text-gray-900">
+                                            <span className="mt-2 block text-sm font-medium text-white">
                                                 Drop files here or click to upload
                                             </span>
                                             <input
@@ -286,7 +286,7 @@ const ReportIncident = () => {
                                                 onChange={(e) => handleFileSelect(e.target.files)}
                                             />
                                         </label>
-                                        <p className="mt-2 text-xs text-gray-500">
+                                        <p className="mt-2 text-xs text-gray-400">
                                             Images, videos, or PDFs up to 10MB each (max 5 files)
                                         </p>
                                     </div>
@@ -296,15 +296,15 @@ const ReportIncident = () => {
                             {/* Selected Files */}
                             {selectedFiles.length > 0 && (
                                 <div className="mt-4 space-y-2">
-                                    <p className="text-sm font-medium text-gray-700">Selected Files:</p>
+                                    <p className="text-sm font-medium text-gray-300">Selected Files:</p>
                                     {selectedFiles.map((file, index) => (
-                                        <div key={index} className="flex items-center justify-between bg-gray-50 border border-gray-200 p-3 rounded-xl">
+                                        <div key={index} className="flex items-center justify-between bg-white/5 border border-white/10 p-3 rounded-xl">
                                             <div className="flex items-center space-x-3">
                                                 {getFileIcon(file)}
-                                                <span className="text-sm text-gray-700 truncate">
+                                                <span className="text-sm text-gray-300 truncate">
                                                     {file.name}
                                                 </span>
-                                                <span className="text-xs text-gray-500">
+                                                <span className="text-xs text-gray-400">
                                                     ({(file.size / 1024 / 1024).toFixed(1)} MB)
                                                 </span>
                                             </div>
@@ -326,14 +326,14 @@ const ReportIncident = () => {
                         </div>
 
                         {/* Important Notice */}
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-5">
+                        <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5">
                             <div className="flex">
-                                <AlertTriangle className="h-5 w-5 text-yellow-400 mt-0.5" />
+                                <AlertTriangle className="h-5 w-5 text-amber-300 mt-0.5" />
                                 <div className="ml-3">
-                                    <h3 className="text-sm font-medium text-yellow-800">
+                                    <h3 className="text-sm font-medium text-amber-200">
                                         Important Notice
                                     </h3>
-                                    <div className="mt-2 text-sm text-yellow-700">
+                                    <div className="mt-2 text-sm text-amber-200/80">
                                         <ul className="list-disc list-inside space-y-1">
                                             <li>Your report will be forwarded to appropriate authorities</li>
                                             <li>You will receive a confirmation email with an incident number</li>
@@ -350,7 +350,7 @@ const ReportIncident = () => {
                             <button
                                 type="button"
                                 onClick={() => navigate(-1)}
-                                className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="px-6 py-3 border border-white/10 text-sm font-medium rounded-xl text-gray-300 bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 focus:ring-offset-transparent"
                             >
                                 Cancel
                             </button>

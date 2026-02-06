@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import MainRoutes from './routes/Mainroutes';
 import Preloader from './components/Preloader';
+import BackgroundLayout from './components/BackgroundLayout';
 
 function App() {
   const [showPreloader, setShowPreloader] = useState(true);
@@ -21,9 +22,9 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <BackgroundLayout>
       <MainRoutes />
-    </div>
+    </BackgroundLayout>
   );
 }
 

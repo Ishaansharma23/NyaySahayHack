@@ -1,10 +1,54 @@
 @import "tailwindcss";
 
+html,
+body,
+#root {
+    height: 100%;
+    background-color: #0d0d0d;
+}
+
+body {
+    color: #ffffff;
+}
+
+.app-bg {
+    background: linear-gradient(180deg, #0d0d0d 0%, #111111 100%);
+}
+
+.app-bg-glow {
+    background: radial-gradient(600px circle at 50% 35%, rgba(120, 90, 55, 0.12), rgba(13, 13, 13, 0) 60%);
+    opacity: 0.3;
+    animation: app-bg-breathe 28s ease-in-out infinite;
+}
+
+.app-bg-grid {
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 52px 52px;
+    opacity: 0.32;
+}
+
+.app-bg-vignette {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+@keyframes app-bg-breathe {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.26;
+    }
+    50% {
+        transform: scale(1.03);
+        opacity: 0.3;
+    }
+}
+
 .str-chat__channel {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #c9e8c9, #b7e7bb);
+    background: transparent;
     height: 100%;
 }
 
@@ -14,12 +58,13 @@
     height: 80% !important;
     margin: 0 auto !important;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
     overflow: hidden;
 }
 
 .str-chat__list {
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
     padding: 12px;
 }
 
@@ -28,5 +73,5 @@
 }
 
 .str-chat__message-input {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 }

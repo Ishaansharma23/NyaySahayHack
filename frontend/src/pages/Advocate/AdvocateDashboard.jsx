@@ -11,8 +11,8 @@ const AdvocateDashboard = () => {
     // Show loading state
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400"></div>
             </div>
         );
     }
@@ -20,8 +20,8 @@ const AdvocateDashboard = () => {
     // Show error state
     if (error) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-red-600">Error loading dashboard: {error.message}</div>
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="text-red-400">Error loading dashboard: {error.message}</div>
             </div>
         );
     }
@@ -39,7 +39,7 @@ const AdvocateDashboard = () => {
     };
 
     return (
-        <div className="h-screen flex flex-col bg-gray-50">
+        <div className="h-screen flex flex-col">
             <NavAdvocate />
             <main className="flex-1 min-h-0">
                 {renderContent()}

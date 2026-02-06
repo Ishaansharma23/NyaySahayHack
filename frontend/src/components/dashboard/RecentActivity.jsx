@@ -51,18 +51,18 @@ const RecentActivity = ({ userRole = 'client' }) => {
 
     if (isLoading) {
         return (
-            <Card variant="light">
-                <CardHeader className="border-gray-200">
-                    <CardTitle className="text-gray-900">Recent Activity</CardTitle>
+            <Card variant="default">
+                <CardHeader className="border-white/10">
+                    <CardTitle className="text-white">Recent Activity</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
                         {[1, 2, 3].map((i) => (
                             <div key={i} className="animate-pulse flex items-center gap-3">
-                                <div className="w-10 h-10 bg-gray-100 rounded-xl"></div>
+                                <div className="w-10 h-10 bg-white/10 rounded-xl"></div>
                                 <div className="flex-1">
-                                    <div className="h-4 bg-gray-100 rounded w-3/4 mb-2"></div>
-                                    <div className="h-3 bg-gray-50 rounded w-1/2"></div>
+                                    <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
+                                    <div className="h-3 bg-white/5 rounded w-1/2"></div>
                                 </div>
                             </div>
                         ))}
@@ -73,12 +73,12 @@ const RecentActivity = ({ userRole = 'client' }) => {
     }
 
     return (
-        <Card variant="light">
-            <CardHeader className="flex flex-row items-center justify-between border-gray-200">
-                <CardTitle className="text-gray-900">Recent Activity</CardTitle>
+        <Card variant="default">
+            <CardHeader className="flex flex-row items-center justify-between border-white/10">
+                <CardTitle className="text-white">Recent Activity</CardTitle>
                 <Link 
                     to={userRole === 'client' ? '/client/cases' : '/advocate/cases'}
-                    className="text-sm text-indigo-600 hover:text-indigo-500 flex items-center gap-1 transition-colors"
+                    className="text-sm text-indigo-300 hover:text-indigo-200 flex items-center gap-1 transition-colors"
                 >
                     View all <ChevronRight className="h-4 w-4" />
                 </Link>
@@ -86,33 +86,33 @@ const RecentActivity = ({ userRole = 'client' }) => {
             <CardContent className="p-0">
                 {recentCases.length === 0 ? (
                     <div className="p-6 text-center">
-                        <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+                        <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                             <FileText className="h-6 w-6 text-gray-400" />
                         </div>
-                        <p className="text-gray-500">No recent activity</p>
+                        <p className="text-gray-400">No recent activity</p>
                     </div>
                 ) : (
-                    <div className="divide-y divide-gray-100">
+                    <div className="divide-y divide-white/10">
                         {recentCases.map((caseItem) => (
                             <div 
                                 key={caseItem._id}
-                                className="p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                                className="p-4 hover:bg-white/5 transition-colors cursor-pointer"
                             >
                                 <div className="flex items-start gap-3">
-                                    <div className="p-2 bg-gray-50 border border-gray-200 rounded-xl">
+                                    <div className="p-2 bg-white/10 border border-white/10 rounded-xl">
                                         {getActivityIcon(caseItem.status)}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-medium text-gray-900 truncate">
+                                        <p className="text-sm font-medium text-white truncate">
                                             {caseItem.title}
                                         </p>
-                                        <p className="text-xs text-gray-500 mt-0.5">
+                                        <p className="text-xs text-gray-400 mt-0.5">
                                             {caseItem.caseNumber}
                                         </p>
                                     </div>
                                     <div className="flex flex-col items-end gap-1">
                                         <StatusBadge status={caseItem.status} />
-                                        <span className="text-xs text-gray-500">
+                                        <span className="text-xs text-gray-400">
                                             {formatTime(caseItem.updatedAt)}
                                         </span>
                                     </div>

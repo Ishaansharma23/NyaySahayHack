@@ -356,7 +356,7 @@ const NyaySahayAi = () => {
     };
 
     return (
-        <div className="flex h-full w-full bg-white overflow-hidden">
+        <div className="flex h-full w-full bg-transparent text-white overflow-hidden min-h-0">
             {/* Mobile Overlay */}
             {sidebarOpen && window.innerWidth <= 768 && (
                 <div
@@ -370,10 +370,10 @@ const NyaySahayAi = () => {
                 sidebarOpen ? 'w-80 lg:w-80 md:w-72 sm:w-64' : 'w-0'
             } ${
                 window.innerWidth <= 768 ? 'fixed left-0 top-0 h-full z-50' : 'relative'
-            } transition-all duration-300 bg-white border-r border-gray-200 flex flex-col overflow-hidden shadow-lg`}>
+            } transition-all duration-300 bg-white/5 border-r border-white/10 flex flex-col overflow-hidden shadow-xl`}>
                 
                 {/* Sidebar Header */}
-                <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-blue-50">
+                <div className="p-4 border-b border-white/10 bg-white/5">
                     <button
                         onClick={startNewChat}
                         disabled={createChatMutation.isPending}
@@ -387,18 +387,18 @@ const NyaySahayAi = () => {
                 {/* Chat History */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-2">
                     <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-gray-600 text-sm font-medium px-2">
+                        <h3 className="text-gray-300 text-sm font-medium px-2">
                             Recent Consultations
                         </h3>
                         {chatsLoading && (
-                            <div className="text-indigo-500 text-xs">Loading...</div>
+                            <div className="text-indigo-300 text-xs">Loading...</div>
                         )}
                     </div>
 
                     {!chatsLoading && chatHistory.length === 0 && (
                         <div className="text-center py-8">
-                            <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                            <p className="text-gray-500 text-sm">No consultations yet</p>
+                            <MessageCircle className="h-12 w-12 text-gray-500 mx-auto mb-3" />
+                            <p className="text-gray-300 text-sm">No consultations yet</p>
                             <p className="text-gray-400 text-xs mt-1">Start your first legal chat!</p>
                         </div>
                     )}
@@ -409,24 +409,24 @@ const NyaySahayAi = () => {
                             onClick={() => selectChat(chat._id)}
                             className={`p-3 rounded-xl cursor-pointer transition-all duration-200 group ${
                                 currentChatId === chat._id
-                                    ? 'bg-indigo-50 border border-indigo-200'
-                                    : 'hover:bg-gray-50 border border-transparent'
+                                    ? 'bg-indigo-500/10 border border-indigo-500/30'
+                                    : 'hover:bg-white/5 border border-transparent'
                             }`}
                         >
                             <div className="flex items-center justify-between">
                                 <div className="flex-1 min-w-0">
-                                    <h4 className="text-gray-900 text-sm font-medium truncate">
+                                    <h4 className="text-white text-sm font-medium truncate">
                                         {chat.title}
                                     </h4>
-                                    <p className="text-gray-500 text-xs truncate mt-1">
+                                    <p className="text-gray-400 text-xs truncate mt-1">
                                         Legal consultation
                                     </p>
                                 </div>
                                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button className="p-1 text-gray-400 hover:text-gray-600 transition-colors">
+                                    <button className="p-1 text-gray-400 hover:text-white transition-colors">
                                         <Edit3 className="text-xs" />
                                     </button>
-                                    <button className="p-1 text-gray-400 hover:text-red-500 transition-colors">
+                                    <button className="p-1 text-gray-400 hover:text-red-400 transition-colors">
                                         <Trash2 className="text-xs" />
                                     </button>
                                 </div>
@@ -439,28 +439,28 @@ const NyaySahayAi = () => {
             {/* Main Chat Area */}
             <div className="flex-1 flex flex-col">
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+                <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="p-2 text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-100"
+                            className="p-2 text-gray-300 hover:text-white transition-colors rounded-lg hover:bg-white/10"
                         >
                             {sidebarOpen ? <X /> : <Menu />}
                         </button>
                         
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden">
+                            <div className="w-10 h-10 rounded-full bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
                                 <img src="/Advocate.svg" alt="Law symbol" className="w-6 h-6" />
                             </div>
                             <div>
-                                <h1 className="text-lg font-bold text-gray-900">Nyay-Sahay AI</h1>
-                                <p className="text-sm text-gray-500">Your Legal Assistant</p>
+                                <h1 className="text-lg font-bold text-white">Nyay-Sahay AI</h1>
+                                <p className="text-sm text-gray-400">Your Legal Assistant</p>
                             </div>
                         </div>
                     </div>
 
                     <div className={`text-xs px-3 py-1 rounded-full ${
-                        isConnected ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                        isConnected ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' : 'bg-red-500/15 text-red-300 border border-red-500/30'
                     }`}>
                         {isConnected ? '● Connected' : '● Disconnected'}
                     </div>
@@ -471,24 +471,24 @@ const NyaySahayAi = () => {
                     {messages.length === 0 && !currentChatId ? (
                         // Welcome Screen
                         <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                            <div className="w-20 h-20 rounded-full bg-white border border-gray-200 flex items-center justify-center mb-6 shadow-sm">
+                            <div className="w-20 h-20 rounded-full bg-white/10 border border-white/10 flex items-center justify-center mb-6 shadow-sm">
                                 <img src="/Advocate.svg" alt="Law symbol" className="w-10 h-10" />
                             </div>
-                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                                Welcome to <span className="text-indigo-600">Nyay-Sahay AI</span>
+                            <h2 className="text-3xl font-bold text-white mb-4">
+                                Welcome to <span className="text-indigo-300">Nyay-Sahay AI</span>
                             </h2>
-                            <p className="text-gray-600 text-lg max-w-2xl mb-8">
+                            <p className="text-gray-300 text-lg max-w-2xl mb-8">
                                 Your intelligent legal assistant ready to help you understand your rights, 
                                 legal procedures, and provide guidance on legal matters in India.
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
-                                <div className="p-4 bg-indigo-50 rounded-lg">
-                                    <h3 className="font-semibold text-indigo-900 mb-2">Ask Legal Questions</h3>
-                                    <p className="text-sm text-indigo-700">Get explanations about Indian laws and your rights</p>
+                                <div className="p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-lg">
+                                    <h3 className="font-semibold text-indigo-200 mb-2">Ask Legal Questions</h3>
+                                    <p className="text-sm text-indigo-200/80">Get explanations about Indian laws and your rights</p>
                                 </div>
-                                <div className="p-4 bg-blue-50 rounded-lg">
-                                    <h3 className="font-semibold text-blue-900 mb-2">Legal Procedures</h3>
-                                    <p className="text-sm text-blue-700">Learn about court processes and legal remedies</p>
+                                <div className="p-4 bg-sky-500/10 border border-sky-500/20 rounded-lg">
+                                    <h3 className="font-semibold text-sky-200 mb-2">Legal Procedures</h3>
+                                    <p className="text-sm text-sky-200/80">Learn about court processes and legal remedies</p>
                                 </div>
                             </div>
                         </div>
@@ -497,14 +497,14 @@ const NyaySahayAi = () => {
                         <div className="p-4 lg:p-6 space-y-6">
                             {messagesLoading ? (
                                 <div className="flex justify-center items-center py-8">
-                                    <div className="text-indigo-500">
+                                    <div className="text-indigo-300">
                                         <TypingAnimation />
-                                        <p className="text-sm mt-2 text-center">Loading messages...</p>
+                                        <p className="text-sm mt-2 text-center text-gray-300">Loading messages...</p>
                                     </div>
                                 </div>
                             ) : messages.length === 0 ? (
                                 <div className="flex justify-center items-center py-8">
-                                    <p className="text-gray-500 text-center">No messages yet. Start the conversation!</p>
+                                    <p className="text-gray-300 text-center">No messages yet. Start the conversation!</p>
                                 </div>
                             ) : (
                                 messages.map((message) => (
@@ -525,12 +525,12 @@ const NyaySahayAi = () => {
                                                 className={`relative p-4 lg:p-5 rounded-2xl ${
                                                     message.type === 'user'
                                                         ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white ml-auto'
-                                                        : 'bg-white text-gray-800 border border-gray-200 shadow-sm'
+                                                        : 'bg-white/5 text-white border border-white/10 shadow-sm'
                                                 }`}
                                             >
                                                 <FormattedMessage content={message.content} type={message.type} />
                                             </div>
-                                            <div className={`text-xs text-gray-500 mt-2 ${
+                                            <div className={`text-xs text-gray-400 mt-2 ${
                                                 message.type === 'user' ? 'text-right' : 'text-left'
                                             }`}>
                                                 {message.timestamp.toLocaleTimeString()}
@@ -538,8 +538,8 @@ const NyaySahayAi = () => {
                                         </div>
 
                                         {message.type === 'user' && (
-                                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0 order-2">
-                                                <User className="text-gray-600 text-sm" />
+                                            <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 order-2">
+                                                <User className="text-gray-300 text-sm" />
                                             </div>
                                         )}
                                     </div>
@@ -552,7 +552,7 @@ const NyaySahayAi = () => {
                                     <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                                         <Scale className="text-white text-sm" />
                                     </div>
-                                    <div className="bg-white border border-gray-200 rounded-2xl">
+                                    <div className="bg-white/5 border border-white/10 rounded-2xl">
                                         <TypingAnimation />
                                     </div>
                                 </div>
@@ -565,14 +565,14 @@ const NyaySahayAi = () => {
 
                 {/* Input Area */}
                 {currentChatId ? (
-                    <div className="p-4 lg:p-6 border-t border-gray-200 bg-white">
+                    <div className="p-4 lg:p-6 border-t border-white/10 bg-white/5">
                         <form onSubmit={handleSendMessage} className="flex gap-3 lg:gap-4 items-center">
                             <div className="flex-1 relative">
                                 <textarea
                                     value={inputMessage}
                                     onChange={(e) => setInputMessage(e.target.value)}
                                     placeholder="Ask JusticeAI about your legal rights..."
-                                    className="w-full p-3 lg:p-4 bg-gray-50 border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300 resize-none min-h-[50px] lg:min-h-[60px] max-h-32"
+                                    className="w-full p-3 lg:p-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all duration-300 resize-none min-h-[50px] lg:min-h-[60px] max-h-32"
                                     rows={1}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -590,14 +590,14 @@ const NyaySahayAi = () => {
                                 <Send className="text-sm lg:text-lg" />
                             </button>
                         </form>
-                        <p className="text-xs text-gray-500 mt-2 text-center px-2">
+                        <p className="text-xs text-gray-400 mt-2 text-center px-2">
                             JusticeAI provides legal information, not legal advice. Consult with qualified advocates for specific legal matters.
                         </p>
                     </div>
                 ) : (
-                    <div className="p-4 lg:p-6 border-t border-gray-200 bg-white">
+                    <div className="p-4 lg:p-6 border-t border-white/10 bg-white/5">
                         <div className="text-center py-4">
-                            <p className="text-gray-500 text-sm mb-2">
+                            <p className="text-gray-300 text-sm mb-2">
                                 Select a chat or create a new one to start your legal consultation
                             </p>
                             <button

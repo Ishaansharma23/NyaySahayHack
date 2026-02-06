@@ -22,17 +22,17 @@ const Card = forwardRef(({
     };
 
     const variants = {
-        default: 'bg-[#151515]/80 backdrop-blur-xl border-[#222]',
-        solid: 'bg-[#151515] border-[#222]',
-        gradient: 'bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border-[#222]',
-        light: 'bg-white border-gray-200 shadow-sm'
+        default: 'bg-white/5 backdrop-blur-md border-white/10 shadow-xl',
+        solid: 'bg-white/5 backdrop-blur-md border-white/10 shadow-xl',
+        gradient: 'bg-white/5 backdrop-blur-md border-white/10 shadow-xl',
+        light: 'bg-white/5 backdrop-blur-md border-white/10 shadow-xl'
     };
 
     const hoverStyles = {
-        default: 'hover:bg-[#1A1A1A] hover:border-[#2A2A2A] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300',
-        solid: 'hover:bg-[#1A1A1A] hover:border-[#2A2A2A] hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300',
-        gradient: 'hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300',
-        light: 'hover:shadow-lg hover:border-gray-300 transition-all duration-300'
+        default: 'hover:scale-[1.02] transition-all duration-300 ease-out',
+        solid: 'hover:scale-[1.02] transition-all duration-300 ease-out',
+        gradient: 'hover:scale-[1.02] transition-all duration-300 ease-out',
+        light: 'hover:scale-[1.02] transition-all duration-300 ease-out'
     };
 
     return (
