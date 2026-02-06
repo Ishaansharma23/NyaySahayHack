@@ -146,6 +146,16 @@ VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
 
 - Stream Chat requires matching Stream API keys in both backend and frontend.
 
+## Future Improvements
+
+- Admin dashboard for moderation, disputes, and analytics
+- Push/email notifications for case updates and chat events
+- Advanced search and filters for advocates
+- Better case tracking with timelines and document management
+- Multi-language UI support
+- Accessibility improvements (ARIA, keyboard navigation)
+- End-to-end tests for critical flows (auth, payments, chat)
+
 ## Scripts
 
 **Backend**
@@ -155,5 +165,4 @@ VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
 **Frontend**
 - `npm run dev`
 - `npm run build`
-- `npm run preview`
-- `npm run lint`
+
