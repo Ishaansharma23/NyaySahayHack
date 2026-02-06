@@ -35,17 +35,25 @@ const corsOptions = {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
         
-        const allowedOrigins = [
+        const envOrigins = [
+            process.env.FRONTEND_URL,
+            ...(process.env.FRONTEND_URLS || '').split(',')
+        ]
+            .map((value) => value?.trim())
+            .filter(Boolean);
+
+        const allowedOrigins = new Set([
             'http://localhost:5173',
             'http://localhost:5174',
             'http://localhost:5175',
-            process.env.FRONTEND_URL
-        ].filter(Boolean);
-        
-        if (allowedOrigins.includes(origin)) {
+            'https://nyay-sahay-hack.vercel.app',
+            ...envOrigins
+        ]);
+
+        if (allowedOrigins.has(origin)) {
             callback(null, true);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(null, false);
         }
     },
     credentials: true,
