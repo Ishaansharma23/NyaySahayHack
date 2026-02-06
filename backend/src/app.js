@@ -34,12 +34,15 @@ const corsOptions = {
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
+
+        const normalizeOrigin = (value) => value?.trim().replace(/\/$/, '');
+        const originToCheck = normalizeOrigin(origin);
         
         const envOrigins = [
             process.env.FRONTEND_URL,
             ...(process.env.FRONTEND_URLS || '').split(',')
         ]
-            .map((value) => value?.trim())
+            .map((value) => normalizeOrigin(value))
             .filter(Boolean);
 
         const allowedOrigins = new Set([
@@ -50,7 +53,10 @@ const corsOptions = {
             ...envOrigins
         ]);
 
-        if (allowedOrigins.has(origin)) {
+        const isAllowed = allowedOrigins.has(originToCheck);
+        const isAllowedVercel = originToCheck?.endsWith('.vercel.app') && originToCheck?.includes('nyay-sahay-hack');
+
+        if (isAllowed || isAllowedVercel) {
             callback(null, true);
         } else {
             callback(null, false);
@@ -61,6 +67,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Request logging
 app.use(requestLogger);
