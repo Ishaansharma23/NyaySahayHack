@@ -38,30 +38,31 @@ NyaySahay is a legal assistance platform connecting clients and advocates with A
 
 ```
 NyaySahayHack/
-  backend/
-    package.json
-    server.js
-    src/
-      app.js
-      controllers/
-      db/
-      middlewares/
-      models/
-      routes/
-      service/
-      sockets/
-      utils/
-  frontend/
-    package.json
-    index.html
-    vite.config.js
-    src/
-      common/
-      components/
-      hooks/
-      pages/
-      routes/
-      services/
+├── backend/                        # Express Backend
+│   ├── package.json
+│   ├── server.js
+│   └── src/
+│       ├── app.js
+│       ├── controllers/
+│       ├── db/
+│       ├── middlewares/
+│       ├── models/
+│       ├── routes/
+│       ├── service/
+│       ├── sockets/
+│       └── utils/
+├── frontend/                       # React Frontend
+│   ├── package.json
+│   ├── index.html
+│   ├── vite.config.js
+│   └── src/
+│       ├── common/
+│       ├── components/
+│       ├── hooks/
+│       ├── pages/
+│       ├── routes/
+│       └── services/
+└── README.md
 ```
 
 ## Local Setup
@@ -116,10 +117,6 @@ CLAUDE_API_KEY=your_claude_key
 
 # Vector Search
 PINECONE_API_KEY=your_pinecone_key
-
-# Optional
-LOG_HTTP=false
-LOG_LEVEL=debug
 ```
 
 ### Frontend `.env`
@@ -148,7 +145,6 @@ VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
 ## Notes
 
 - Stream Chat requires matching Stream API keys in both backend and frontend.
-- If you don’t want HTTP logs in the console, leave `LOG_HTTP` unset or set it to `false`.
 
 ## Scripts
 
