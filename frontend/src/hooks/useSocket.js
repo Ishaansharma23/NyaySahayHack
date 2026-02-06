@@ -7,12 +7,15 @@ export const useSocket = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
 
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+    const socketBaseUrl = import.meta.env.VITE_SOCKET_URL || apiBaseUrl.replace(/\/api$/, '');
+
     const connect = () => {
         if (socketRef.current?.connected) return;
 
         setIsConnecting(true);
         
-        socketRef.current = io('http://localhost:3000', {
+        socketRef.current = io(socketBaseUrl, {
             withCredentials: true,
             transports: ['websocket', 'polling']
         });
