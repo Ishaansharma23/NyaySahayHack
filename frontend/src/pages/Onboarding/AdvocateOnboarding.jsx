@@ -80,12 +80,12 @@ const AdvocateOnboarding = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center bg-transparent py-12 px-4 sm:px-6 lg:px-8 text-white">
             <div className="w-full max-w-4xl">
-                <div className="bg-white rounded-2xl shadow-xl p-8 relative">
+                <div className="bg-white/5 border border-white/10 rounded-2xl shadow-xl p-8 relative backdrop-blur">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Complete Your Advocate Profile</h1>
-                        <p className="text-gray-600">Help us know you better to serve you better</p>
+                        <h1 className="text-3xl font-semibold text-white mb-2">Complete Your Advocate Profile</h1>
+                        <p className="text-gray-400">Help us know you better to serve you better</p>
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -93,7 +93,7 @@ const AdvocateOnboarding = () => {
                             {/* Profile Picture */}
                             <div className="col-span-2 flex flex-col items-center">
                                 <div className="relative group">
-                                    <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                                    <div className="w-32 h-32 rounded-full bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
                                         {profilePic ? (
                                             <img 
                                                 src={URL.createObjectURL(profilePic)} 
@@ -117,12 +117,12 @@ const AdvocateOnboarding = () => {
                                         />
                                     </label>
                                 </div>
-                                <p className="mt-2 text-sm text-gray-500">Click to upload profile picture</p>
+                                <p className="mt-2 text-sm text-gray-400">Click to upload profile picture</p>
                             </div>
 
                             {/* Law Firm Name */}
                             <div>
-                                <label htmlFor="lawFirm" className="block text-sm font-medium text-gray-700 mb-1">
+                                <label htmlFor="lawFirm" className="block text-sm font-medium text-gray-300 mb-1">
                                     Name of Law Firm
                                 </label>
                                 <div className="relative">
@@ -133,9 +133,9 @@ const AdvocateOnboarding = () => {
                                         id="lawFirm"
                                         type="text"
                                         placeholder="Enter law firm name"
-                                        className={`block w-full pl-10 pr-3 py-3 border ${
-                                            errors.lawFirm ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                                        className={`block w-full pl-10 pr-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/5 text-white placeholder:text-gray-500 border ${
+                                            errors.lawFirm ? 'border-red-400/70' : 'border-white/10'
+                                        }`}
                                         {...register('lawFirm', {
                                             required: 'Law firm name is required'
                                         })}
@@ -148,7 +148,7 @@ const AdvocateOnboarding = () => {
 
                             {/* Bar Council Number */}
                             <div>
-                                <label htmlFor="barCouncilNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                                <label htmlFor="barCouncilNumber" className="block text-sm font-medium text-gray-300 mb-1">
                                     Bar Council Number
                                 </label>
                                 <div className="relative">
@@ -159,9 +159,9 @@ const AdvocateOnboarding = () => {
                                         id="barCouncilNumber"
                                         type="text"
                                         placeholder="e.g., ABC12345"
-                                        className={`block w-full pl-10 pr-3 py-3 border ${
-                                            errors.barCouncilNumber ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                                        className={`block w-full pl-10 pr-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/5 text-white placeholder:text-gray-500 border ${
+                                            errors.barCouncilNumber ? 'border-red-400/70' : 'border-white/10'
+                                        }`}
                                         {...register('barCouncilNumber', {
                                             required: 'Bar Council Number is required'
                                         })}
@@ -174,7 +174,7 @@ const AdvocateOnboarding = () => {
 
                             {/* Years of Practice */}
                             <div>
-                                <label htmlFor="yearsOfPractice" className="block text-sm font-medium text-gray-700 mb-1">
+                                <label htmlFor="yearsOfPractice" className="block text-sm font-medium text-gray-300 mb-1">
                                     Years of Practice
                                 </label>
                                 <div className="relative">
@@ -183,9 +183,9 @@ const AdvocateOnboarding = () => {
                                     </div>
                                     <select
                                         id="yearsOfPractice"
-                                        className={`block w-full pl-10 pr-3 py-3 border ${
-                                            errors.yearsOfPractice ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white`}
+                                        className={`block w-full pl-10 pr-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/5 text-white border ${
+                                            errors.yearsOfPractice ? 'border-red-400/70' : 'border-white/10'
+                                        }`}
                                         {...register('yearsOfPractice', {
                                             required: 'Please select years of practice'
                                         })}
@@ -205,7 +205,7 @@ const AdvocateOnboarding = () => {
 
                             {/* Area of Practice */}
                             <div>
-                                <label htmlFor="specialization" className="block text-sm font-medium text-gray-700 mb-1">
+                                <label htmlFor="specialization" className="block text-sm font-medium text-gray-300 mb-1">
                                     Area of Practice
                                 </label>
                                 <div className="relative">
@@ -214,9 +214,9 @@ const AdvocateOnboarding = () => {
                                     </div>
                                     <select
                                         id="specialization"
-                                        className={`block w-full pl-10 pr-3 py-3 border ${
-                                            errors.specialization ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white`}
+                                        className={`block w-full pl-10 pr-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/5 text-white border ${
+                                            errors.specialization ? 'border-red-400/70' : 'border-white/10'
+                                        }`}
                                         {...register('specialization', {
                                             required: 'Please select your area of practice'
                                         })}
@@ -236,7 +236,7 @@ const AdvocateOnboarding = () => {
 
                             {/* Location */}
                             <div>
-                                <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+                                <label htmlFor="location" className="block text-sm font-medium text-gray-300 mb-1">
                                     Location (City, State)
                                 </label>
                                 <div className="relative">
@@ -247,9 +247,9 @@ const AdvocateOnboarding = () => {
                                         id="location"
                                         type="text"
                                         placeholder="e.g., Mumbai, Maharashtra"
-                                        className={`block w-full pl-10 pr-3 py-3 border ${
-                                            errors.location ? 'border-red-300' : 'border-gray-300'
-                                        } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent`}
+                                        className={`block w-full pl-10 pr-3 py-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/5 text-white placeholder:text-gray-500 border ${
+                                            errors.location ? 'border-red-400/70' : 'border-white/10'
+                                        }`}
                                         {...register('location', {
                                             required: 'Location is required'
                                         })}
@@ -262,13 +262,13 @@ const AdvocateOnboarding = () => {
 
                             {/* Bar Certificate Upload */}
                             <div className="col-span-2">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-gray-300 mb-2">
                                     Upload Bar Certificate (PDF)
                                 </label>
-                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-white/10 border-dashed rounded-lg bg-white/5">
                                     <div className="space-y-1 text-center">
-                                        <div className="flex text-sm text-gray-600 justify-center">
-                                            <label className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
+                                        <div className="flex text-sm text-gray-400 justify-center">
+                                            <label className="relative cursor-pointer bg-transparent rounded-md font-medium text-indigo-300 hover:text-indigo-200 focus-within:outline-none">
                                                 <span>Upload a file</span>
                                                 <input 
                                                     id="barCertificate" 
@@ -286,7 +286,7 @@ const AdvocateOnboarding = () => {
                                             PDF up to 5MB
                                         </p>
                                         {selectedFile && (
-                                            <p className="text-sm text-green-600">
+                                            <p className="text-sm text-emerald-300">
                                                 {selectedFile.name} selected
                                             </p>
                                         )}
@@ -299,14 +299,14 @@ const AdvocateOnboarding = () => {
 
                             {/* Bio/About */}
                             <div className="col-span-2">
-                                <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
+                                <label htmlFor="bio" className="block text-sm font-medium text-gray-300 mb-1">
                                     Brief Bio (Optional)
                                 </label>
                                 <div className="mt-1">
                                     <textarea
                                         id="bio"
                                         rows={4}
-                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-lg p-3"
+                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-white/10 rounded-lg p-3 bg-white/5 text-white placeholder:text-gray-500"
                                         placeholder="Tell us about your legal expertise and experience..."
                                         {...register('bio')}
                                     />
@@ -324,7 +324,7 @@ const AdvocateOnboarding = () => {
                             <button
                                 type="button"
                                 onClick={() => navigate(-1)}
-                                className="px-6 py-3 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="px-6 py-3 border border-white/10 text-sm font-medium rounded-lg text-gray-300 bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Back
                             </button>
