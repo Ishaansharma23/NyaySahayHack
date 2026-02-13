@@ -10,7 +10,10 @@ import { USER_ROLES } from "../utils/constants.js";
  * Verifies JWT token and attaches user to request
  */
 export const protectRoute = asyncHandler(async (req, res, next) => {
-    const { token } = req.cookies;
+    const cookieToken = req.cookies?.token;
+    const authHeader = req.headers.authorization || '';
+    const headerToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    const token = cookieToken || headerToken;
 
     if (!token) {
         throw ApiError.unauthorized("Please login to access this resource");
@@ -82,7 +85,10 @@ export const advocateOnly = restrictTo(USER_ROLES.ADVOCATE);
  * Attaches user to request if token exists, but doesn't require it
  */
 export const optionalAuth = asyncHandler(async (req, res, next) => {
-    const { token } = req.cookies;
+    const cookieToken = req.cookies?.token;
+    const authHeader = req.headers.authorization || '';
+    const headerToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    const token = cookieToken || headerToken;
 
     if (!token) {
         return next();

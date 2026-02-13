@@ -28,12 +28,10 @@ const RecentActivity = ({ userRole = 'client' }) => {
             case 'accepted':
                 return <CheckCircle className="h-4 w-4 text-emerald-400" />;
             case 'pending':
-                case 'pending':
-                    return <Clock className="h-4 w-4 text-amber-400" />;
-                case 'submitted':
-                case 'under_review':
-                case 'forwarded':
-                    return <Clock className="h-4 w-4 text-amber-400" />;
+            case 'submitted':
+            case 'under_review':
+            case 'forwarded':
+                return <Clock className="h-4 w-4 text-amber-400" />;
             case 'rejected':
                 return <AlertCircle className="h-4 w-4 text-red-400" />;
             default:

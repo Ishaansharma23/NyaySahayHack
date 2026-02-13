@@ -212,6 +212,7 @@ export const useLogout = () => {
         onSuccess: () => {
             // Clear all queries and cache
             queryClient.clear();
+            window.localStorage.removeItem('authToken');
             
             toast.success('Logged out successfully!');
             
@@ -222,6 +223,7 @@ export const useLogout = () => {
             console.error('Logout failed:', error);
             // Even if logout fails on server, clear cache
             queryClient.clear();
+            window.localStorage.removeItem('authToken');
             toast.success('Logged out successfully!');
             navigate('/');
         }

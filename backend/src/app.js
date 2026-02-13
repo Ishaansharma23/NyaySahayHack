@@ -22,6 +22,9 @@ import logger from "./utils/logger.js";
 const app = express();
 
 // Global Middlewares
+if (process.env.TRUST_PROXY === 'true') {
+    app.set('trust proxy', 1);
+}
 
 
 // Body parsing
@@ -36,6 +39,14 @@ const allowedOrigins = new Set([
     'http://localhost:5174',
     'http://localhost:5175'
 ]);
+
+if (process.env.FRONTEND_ORIGIN) {
+    allowedOrigins.add(process.env.FRONTEND_ORIGIN);
+}
+
+if (process.env.FRONTEND_ORIGIN_ALT) {
+    allowedOrigins.add(process.env.FRONTEND_ORIGIN_ALT);
+}
 
 app.use(cors({
     origin: (origin, callback) => {

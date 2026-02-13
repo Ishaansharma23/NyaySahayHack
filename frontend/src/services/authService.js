@@ -5,6 +5,9 @@ export const authService = {
     registerClient: async (userData) => {
         try {
             const response = await api.post('/auth/signup/client', userData);
+            if (response.data?.token) {
+                window.localStorage.setItem('authToken', response.data.token);
+            }
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Registration failed' };
@@ -15,6 +18,9 @@ export const authService = {
     loginClient: async (credentials) => {
         try {
             const response = await api.post('/auth/login/client', credentials);
+            if (response.data?.token) {
+                window.localStorage.setItem('authToken', response.data.token);
+            }
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Login failed' };
@@ -25,8 +31,10 @@ export const authService = {
     logoutClient: async () => {
         try {
             const response = await api.post('/auth/logout/client');
+            window.localStorage.removeItem('authToken');
             return response.data;
         } catch (error) {
+            window.localStorage.removeItem('authToken');
             throw error.response?.data || { message: 'Logout failed' };
         }
     },
@@ -49,6 +57,9 @@ export const authService = {
     registerAdvocate: async (userData) => {
         try {
             const response = await api.post('/auth/signup/advocate', userData);
+            if (response.data?.token) {
+                window.localStorage.setItem('authToken', response.data.token);
+            }
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Registration failed' };
@@ -59,6 +70,9 @@ export const authService = {
     loginAdvocate: async (credentials) => {
         try {
             const response = await api.post('/auth/login/advocate', credentials);
+            if (response.data?.token) {
+                window.localStorage.setItem('authToken', response.data.token);
+            }
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Login failed' };
@@ -69,8 +83,10 @@ export const authService = {
     logoutAdvocate: async () => {
         try {
             const response = await api.post('/auth/logout/advocate');
+            window.localStorage.removeItem('authToken');
             return response.data;
         } catch (error) {
+            window.localStorage.removeItem('authToken');
             throw error.response?.data || { message: 'Logout failed' };
         }
     },
@@ -105,7 +121,14 @@ export const authService = {
             const response = await api.get('/auth/profile-status');
             return response.data;
         } catch (error) {
-            throw error.response?.data || { message: 'Profile status check failed' };
+            // On any error (network, server), return unauthenticated state
+            // This prevents crashes and allows graceful handling
+            return {
+                authenticated: false,
+                user: null,
+                role: null,
+                profileComplete: false
+            };
         }
     },
 

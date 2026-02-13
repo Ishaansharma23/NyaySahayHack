@@ -7,17 +7,22 @@ export const useSocket = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
 
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-    const socketBaseUrl = import.meta.env.VITE_SOCKET_URL || apiBaseUrl.replace(/\/api$/, '');
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ||
+        (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:3000/api');
+    const socketBaseUrl = import.meta.env.VITE_SOCKET_URL ||
+        (apiBaseUrl.startsWith('http') ? apiBaseUrl.replace(/\/api$/, '') : window.location.origin);
 
     const connect = () => {
         if (socketRef.current?.connected) return;
 
         setIsConnecting(true);
         
+        const token = window.localStorage.getItem('authToken');
+
         socketRef.current = io(socketBaseUrl, {
             withCredentials: true,
-            transports: ['websocket', 'polling']
+            transports: ['websocket', 'polling'],
+            auth: token ? { token } : undefined
         });
 
         socketRef.current.on('connect', () => {

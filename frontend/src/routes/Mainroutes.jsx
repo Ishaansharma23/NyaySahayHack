@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import UserTypeSelection from '../pages/Authentication/UserTypeSelection';
 import LoginClient from '../pages/Authentication/LoginClient';
 import SignUpClient from '../pages/Authentication/SignUpClient';
@@ -14,19 +13,11 @@ import ClientDashboard from '../pages/Client/ClientDashboard';
 import AdvocateDashboard from '../pages/Advocate/AdvocateDashboard';
 import ChatPage from '../common/ChatPage';
 import CallPage from '../common/CallPage';
-import api from '../services/api';
+import { useAuthStatus } from '../hooks/useAuthQuery';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requireAuth = true, requiredRole = null, requireCompleteProfile = false }) => {
-    const { data: authData, isLoading, error } = useQuery({
-        queryKey: ['authUser'],
-        queryFn: async () => {
-            const response = await api.get('/auth/profile-status');
-            return response.data;
-        },
-        retry: false,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-    });
+    const { data: authData, isLoading, error } = useAuthStatus();
 
     // Show loading spinner while checking authentication
     if (isLoading) {
@@ -62,15 +53,7 @@ const ProtectedRoute = ({ children, requireAuth = true, requiredRole = null, req
 
 // Redirect authenticated users away from auth pages
 const AuthRoute = ({ children }) => {
-    const { data: authData, isLoading } = useQuery({
-        queryKey: ['authUser'],
-        queryFn: async () => {
-            const response = await api.get('/auth/profile-status');
-            return response.data;
-        },
-        retry: false,
-        staleTime: 5 * 60 * 1000,
-    });
+    const { data: authData, isLoading } = useAuthStatus();
 
     if (isLoading) {
         return (

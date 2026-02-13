@@ -2,6 +2,7 @@ import clientModel from "../models/Client.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { upsertStreamUser, generateStreamToken } from "../db/stream.db.js";
+import { getAuthCookieOptions, getClearCookieOptions } from "../utils/cookies.js";
 
 export async function registerClient(req, res) {
     try {
@@ -63,13 +64,7 @@ export async function registerClient(req, res) {
         const streamToken = generateStreamToken(savedClient._id);
 
         // Set cookie
-        const cookieOptions = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        };
-        res.cookie("token", token, cookieOptions);
+        res.cookie("token", token, getAuthCookieOptions());
 
         // Return user data (without password)
         const { password: _, ...clientData } = savedClient.toObject();
@@ -77,7 +72,8 @@ export async function registerClient(req, res) {
         res.status(201).json({
             message: "Client registered successfully",
             user: clientData,
-            streamToken
+            streamToken,
+            token
         });
 
     } catch (error) {
@@ -134,13 +130,7 @@ export async function loginClient(req, res) {
         await upsertStreamUser(streamUserData);
 
         // Set cookie
-        const cookieOptions = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        };
-        res.cookie("token", token, cookieOptions);
+        res.cookie("token", token, getAuthCookieOptions());
 
         // Return user data (without password)
         const { password: _, ...clientData } = client.toObject();
@@ -148,7 +138,8 @@ export async function loginClient(req, res) {
         res.status(200).json({
             message: "Login successful",
             user: clientData,
-            streamToken
+            streamToken,
+            token
         });
 
     } catch (error) {
@@ -159,11 +150,7 @@ export async function loginClient(req, res) {
 
 export async function logoutClient(req, res) {
     try {
-        res.clearCookie("token", {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        });
+        res.clearCookie("token", getClearCookieOptions());
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
         console.log("Error in logout client", error);

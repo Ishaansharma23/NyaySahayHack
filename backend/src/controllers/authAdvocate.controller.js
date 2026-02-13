@@ -2,6 +2,7 @@ import advocateModel from "../models/Advocate.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { upsertStreamUser, generateStreamToken } from "../db/stream.db.js";
+import { getAuthCookieOptions, getClearCookieOptions } from "../utils/cookies.js";
 
 export async function registerAdvocate(req, res) {
     try {
@@ -63,13 +64,7 @@ export async function registerAdvocate(req, res) {
         const streamToken = generateStreamToken(savedAdvocate._id);
 
         // Set cookie
-        const cookieOptions = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        };
-        res.cookie("token", token, cookieOptions);
+        res.cookie("token", token, getAuthCookieOptions());
 
         // Return advocate data (without password)
         const { password: _, ...advocateData } = savedAdvocate.toObject();
@@ -77,7 +72,8 @@ export async function registerAdvocate(req, res) {
         res.status(201).json({
             message: "Advocate registered successfully",
             user: advocateData,
-            streamToken
+            streamToken,
+            token
         });
 
     } catch (error) {
@@ -135,13 +131,7 @@ export async function loginAdvocate(req, res) {
         await upsertStreamUser(streamUserData);
 
         // Set cookie
-        const cookieOptions = {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        };
-        res.cookie("token", token, cookieOptions);
+        res.cookie("token", token, getAuthCookieOptions());
 
         // Return advocate data (without password)
         const { password: _, ...advocateData } = advocate.toObject();
@@ -149,7 +139,8 @@ export async function loginAdvocate(req, res) {
         res.status(200).json({
             message: "Login successful",
             user: advocateData,
-            streamToken
+            streamToken,
+            token
         });
 
     } catch (error) {
@@ -160,11 +151,7 @@ export async function loginAdvocate(req, res) {
 
 export async function logoutAdvocate(req, res) {
     try {
-        res.clearCookie("token", {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none"
-        });
+        res.clearCookie("token", getClearCookieOptions());
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
         console.log("Error in logout advocate", error);

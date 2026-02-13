@@ -8,9 +8,21 @@ import messageModel from "../models/message.model.js";
 import { createMemory, queryMemory } from "../service/vector.service.js";
 
 function initSocketServer(httpServer) {
+    const socketOrigins = new Set([
+        "https://nyay-sahay-hack.vercel.app"
+    ]);
+
+    if (process.env.FRONTEND_ORIGIN) {
+        socketOrigins.add(process.env.FRONTEND_ORIGIN);
+    }
+
+    if (process.env.FRONTEND_ORIGIN_ALT) {
+        socketOrigins.add(process.env.FRONTEND_ORIGIN_ALT);
+    }
+
     const io = new Server(httpServer, {
         cors: {
-            origin: "https://nyay-sahay-hack.vercel.app",
+            origin: Array.from(socketOrigins),
             credentials: true
         }
     });
@@ -19,12 +31,14 @@ function initSocketServer(httpServer) {
     io.use(async (socket, next) => {
         try {
             const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
-            
-            if (!cookies.token) {
+            const authToken = socket.handshake.auth?.token || socket.handshake.query?.token;
+            const token = cookies.token || authToken;
+
+            if (!token) {
                 return next(new Error("Authentication Error: No token provided"));
             }
 
-            const decoded = jwt.verify(cookies.token, process.env.JWT_SECRET);
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
             
             let user = null;
             let userType = null;

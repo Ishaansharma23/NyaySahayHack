@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:3000/api');
 
 // Create axios instance with default config
 const axiosInstance = axios.create({
@@ -14,6 +16,13 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
+    const token = window.localStorage.getItem('authToken');
+    if (token && !config.headers?.Authorization) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`
+      };
+    }
     return config;
   },
   (error) => {
@@ -27,10 +36,8 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized access
-      window.location.href = '/';
-    }
+    // Don't auto-redirect on 401 - let route guards handle auth state
+    // This prevents race conditions during login/navigation
     return Promise.reject(error);
   }
 );
