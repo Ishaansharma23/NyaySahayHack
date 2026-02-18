@@ -32,15 +32,17 @@ export const useReportIncident = () => {
         onSuccess: (data) => {
             // Invalidate and refetch incidents
             queryClient.invalidateQueries({ queryKey: ['incidents'] });
-            
+
             toast.success(
                 `Incident reported successfully! Incident Number: ${data.incident.incidentNumber}`,
                 { duration: 6000 }
             );
-            
-            // Navigate to incidents list or dashboard
-            navigate('/client/incidents');
-            
+
+            // Delay navigation so the toast has time to render before component unmounts
+            setTimeout(() => {
+                navigate('/client/incidents');
+            }, 800);
+
             return data.incident;
         },
         onError: (error) => {

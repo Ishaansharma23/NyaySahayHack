@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Fix native select dropdown option visibility on dark backgrounds */
+select option {
+    background-color: #1a1a2e;
+    color: #ffffff;
+}
+
+select {
+    color-scheme: dark;
+}
+
 html,
 body,
 #root {

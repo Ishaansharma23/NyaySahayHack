@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false, // Don't refetch on window focus
     },
     mutations: {
-      retry: 1, // Retry mutations once on failure
+      retry: 0, // Don't retry mutations - prevents duplicate submissions on timeout
     },
   },
 })
