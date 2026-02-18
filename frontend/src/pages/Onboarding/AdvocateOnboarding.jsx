@@ -80,7 +80,7 @@ const AdvocateOnboarding = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-transparent py-12 px-4 sm:px-6 lg:px-8 text-white">
+        <div className="min-h-screen flex items-center justify-center bg-black py-12 px-4 sm:px-6 lg:px-8 text-white">
             <div className="w-full max-w-4xl">
                 <div className="bg-white/5 border border-white/10 rounded-2xl shadow-xl p-8 relative backdrop-blur">
                     <div className="text-center mb-8">
