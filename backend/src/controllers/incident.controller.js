@@ -28,7 +28,7 @@ export async function reportIncident(req, res) {
             try {
                 const uploadPromises = req.files.map(async (file) => {
                     const uploadResult = await uploadFile(file, 'NyaySahay/incidents');
-                    
+
                     // Determine file type
                     let fileType = 'document';
                     if (file.mimetype.startsWith('image/')) {
@@ -67,23 +67,20 @@ export async function reportIncident(req, res) {
 
         const savedIncident = await incident.save();
 
-        // Send emails asynchronously
-        try {
-            // Send incident report to authorities
-            await sendIncidentReportEmail(savedIncident);
-            
-            // Send confirmation to reporter
-            await sendConfirmationEmail(user.email, savedIncident);
-            
+        // Send emails fire-and-forget (don't block the response)
+        Promise.all([
+            sendIncidentReportEmail(savedIncident),
+            sendConfirmationEmail(user.email, savedIncident)
+        ]).then(async () => {
             // Update incident to mark emails as sent
             savedIncident.emailSent = true;
             savedIncident.emailSentAt = new Date();
             await savedIncident.save();
-
-        } catch (emailError) {
+            console.log('Emails sent successfully for incident:', savedIncident.incidentNumber);
+        }).catch((emailError) => {
             console.error("Email sending error:", emailError);
             // Don't fail the request if email fails, just log it
-        }
+        });
 
         res.status(201).json({
             message: "Incident report submitted successfully",

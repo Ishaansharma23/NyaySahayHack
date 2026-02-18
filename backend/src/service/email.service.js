@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-// Create transporter (you'll need to configure this with your email provider)
+// Create transporter using explicit SMTP settings (more reliable with nodemailer v7)
 const createTransporter = () => {
     // Check if email credentials are configured
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -8,12 +8,17 @@ const createTransporter = () => {
         return null;
     }
 
-    // For Gmail, you'll need to use App Password
+    // Use explicit Gmail SMTP settings for nodemailer v7 compatibility
     return nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // use SSL
         auth: {
-            user: process.env.EMAIL_USER, // Your email
-            pass: process.env.EMAIL_PASS  // Your app password
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS  // Gmail App Password (16 chars, no spaces)
+        },
+        tls: {
+            rejectUnauthorized: false
         }
     });
 };
