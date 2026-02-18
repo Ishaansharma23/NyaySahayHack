@@ -1,16 +1,17 @@
 import multer from 'multer';
+import ApiError from '../utils/ApiError.js';
+import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from '../utils/constants.js';
 
 // Configure multer for memory storage
 const storage = multer.memoryStorage();
 
 // File filter function
 const fileFilter = (req, file, cb) => {
-    // Allow images and PDFs
-    if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
+    if (ALLOWED_FILE_TYPES.includes(file.mimetype)) {
         cb(null, true);
-    } else {
-        cb(new Error('Only images and PDF files are allowed'), false);
+        return;
     }
+    cb(ApiError.badRequest('Only images, videos, and PDF files are allowed'), false);
 };
 
 // Create multer instance
@@ -18,7 +19,7 @@ const upload = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB limit
+        fileSize: MAX_FILE_SIZE,
     }
 });
 
