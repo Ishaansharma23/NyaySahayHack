@@ -7,12 +7,13 @@ export async function reportIncident(req, res) {
         const { title, incidentDetails, location, incidentType, urgency } = req.body;
         const user = req.user;
 
-        // Validate required fields
+        // fields to be validated
         if (!title || !incidentDetails || !location || !incidentType) {
             return res.status(400).json({
                 message: "Title, incident details, location, and incident type are required"
             });
         }
+
 
         // Validate user is a client
         if (user.role !== 'client') {
@@ -23,7 +24,7 @@ export async function reportIncident(req, res) {
 
         let evidenceFiles = [];
 
-        // Handle file uploads if present
+        // Handle file uploads if present, 
         if (req.files && req.files.length > 0) {
             try {
                 const uploadPromises = req.files.map(async (file) => {
